@@ -1,0 +1,13 @@
+E:\Dev\Github\Dungeon Generator Core\bin\Debug\netcoreapp3.1\Dungeon Generator Core.exe
+E:\Dev\Github\Dungeon Generator Core\bin\Debug\netcoreapp3.1\Dungeon Generator Core.deps.json
+E:\Dev\Github\Dungeon Generator Core\bin\Debug\netcoreapp3.1\Dungeon Generator Core.runtimeconfig.json
+E:\Dev\Github\Dungeon Generator Core\bin\Debug\netcoreapp3.1\Dungeon Generator Core.runtimeconfig.dev.json
+E:\Dev\Github\Dungeon Generator Core\bin\Debug\netcoreapp3.1\Dungeon Generator Core.dll
+E:\Dev\Github\Dungeon Generator Core\bin\Debug\netcoreapp3.1\Dungeon Generator Core.pdb
+E:\Dev\Github\Dungeon Generator Core\obj\Debug\netcoreapp3.1\Dungeon Generator Core.csprojAssemblyReference.cache
+E:\Dev\Github\Dungeon Generator Core\obj\Debug\netcoreapp3.1\Dungeon Generator Core.AssemblyInfoInputs.cache
+E:\Dev\Github\Dungeon Generator Core\obj\Debug\netcoreapp3.1\Dungeon Generator Core.AssemblyInfo.cs
+E:\Dev\Github\Dungeon Generator Core\obj\Debug\netcoreapp3.1\Dungeon Generator Core.csproj.CoreCompileInputs.cache
+E:\Dev\Github\Dungeon Generator Core\obj\Debug\netcoreapp3.1\Dungeon Generator Core.dll
+E:\Dev\Github\Dungeon Generator Core\obj\Debug\netcoreapp3.1\Dungeon Generator Core.pdb
+E:\Dev\Github\Dungeon Generator Core\obj\Debug\netcoreapp3.1\Dungeon Generator Core.genruntimeconfig.cache
