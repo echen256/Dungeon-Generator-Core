@@ -1,11 +1,37 @@
 {
   "version": 3,
   "targets": {
-    ".NETCoreApp,Version=v3.1": {}
+    ".NETCoreApp,Version=v3.1": {
+      "Delaunator/1.0.3": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/DelaunatorSharp.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/DelaunatorSharp.dll": {}
+        }
+      }
+    }
   },
-  "libraries": {},
+  "libraries": {
+    "Delaunator/1.0.3": {
+      "sha512": "SWKfR9m96TMUdjkE9/bZHnokSr4+a9z//4v+PHSk+1GGriRFPC8YevJpMer1QpyOZcYWpYgiPoZvgUOz4nUQyQ==",
+      "type": "package",
+      "path": "delaunator/1.0.3",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "delaunator.1.0.3.nupkg.sha512",
+        "delaunator.nuspec",
+        "lib/net471/DelaunatorSharp.dll",
+        "lib/netstandard2.0/DelaunatorSharp.dll"
+      ]
+    }
+  },
   "projectFileDependencyGroups": {
-    ".NETCoreApp,Version=v3.1": []
+    ".NETCoreApp,Version=v3.1": [
+      "Delaunator >= 1.0.3"
+    ]
   },
   "packageFolders": {
     "C:\\Users\\Eric\\.nuget\\packages\\": {},
@@ -48,6 +74,12 @@
     },
     "frameworks": {
       "netcoreapp3.1": {
+        "dependencies": {
+          "Delaunator": {
+            "target": "Package",
+            "version": "[1.0.3, )"
+          }
+        },
         "imports": [
           "net461",
           "net462",

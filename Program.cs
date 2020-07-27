@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Dungeon_Generator_Core
+namespace Dungeon_Generator_Core.Generator
 {
     static class Program
     {

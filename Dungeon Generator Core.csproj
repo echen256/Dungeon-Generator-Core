@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Generator\" />
+    <PackageReference Include="Delaunator" Version="1.0.3" />
   </ItemGroup>
 
 </Project>

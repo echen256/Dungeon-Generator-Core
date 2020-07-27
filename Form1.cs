@@ -1,4 +1,6 @@
-﻿using System;
+﻿
+using Dungeon_Generator_Core.Generator.Visual_Output;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -15,6 +17,13 @@ namespace Dungeon_Generator_Core
         public Form1()
         {
             InitializeComponent();
+            
+        }
+
+        public void drawDungeon (object sender, EventArgs e)
+        {
+
+            new DungeonDrawer().execute(pictureBox1);
         }
 
     }

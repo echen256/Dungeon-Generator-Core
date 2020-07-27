@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Generator
+using Dungeon_Generator_Core.Geometry;
+using Dungeon_Generator_Core.Generator;
+
+namespace Dungeon_Generator_Core.Generator
 {
     public class Subdivider
     {
@@ -12,24 +15,24 @@ namespace Generator
         int minHeight;
         int maxArea;
         System.Random random = new System.Random();
-        public List<CellRect> execute(IntVec3 vec, int radius, int iterations, int minWidth, int minHeight, int maxArea)
+        public List<Rect> execute(Point vec, int radius, int iterations, int minWidth, int minHeight, int maxArea)
         {
-            var rect = new CellRect(vec.x - radius, vec.z - radius, 2 * radius + 1, 2 * radius + 1);
+            var rect = new Rect(vec.X - radius, vec.Y - radius, 2 * radius + 1, 2 * radius + 1);
 
             return execute(rect, iterations, minWidth, minHeight, maxArea);
         }
 
-        public List<CellRect> execute(CellRect rect, int iterations, int minWidth, int minHeight, int maxArea)
+        public List<Rect> execute(Rect rect, int iterations, int minWidth, int minHeight, int maxArea)
         {
             this.minHeight = minHeight;
             this.minWidth = minWidth;
             this.maxArea = maxArea;
-            var results = new List<CellRect>();
+            var results = new List<Rect>();
             subdivide(rect, results, iterations, true);
             return results;
         }
 
-        public void subdivide(CellRect rect, List<CellRect> results, int iterations, bool vertical)
+        public void subdivide(Rect rect, List<Rect> results, int iterations, bool vertical)
         {
             if (iterations < 1)
             {
@@ -45,7 +48,7 @@ namespace Generator
                 return;
             }
 
-            foreach (CellRect result_rect in subdivisions)
+            foreach (Rect result_rect in subdivisions)
             {
                 subdivide(result_rect, results, iterations - 1, result_rect.Width > result_rect.Height);
             }
@@ -53,9 +56,9 @@ namespace Generator
 
         }
 
-        public List<CellRect> parseResults(CellRect rect, int divisionWidth, bool v)
+        public List<Rect> parseResults(Rect rect, int divisionWidth, bool v)
         {
-            var rects = new List<CellRect>();
+            var rects = new List<Rect>();
             var vertical = v;
             var area = rect.Width * rect.Height;
             if (rect.Width < 2 * minWidth + divisionWidth && rect.Height < 2 * minHeight + divisionWidth)
@@ -77,16 +80,16 @@ namespace Generator
             {
                 var w = Math.Max(minWidth, (int)Math.Floor(random.NextDouble() * rect.Width / 2));
                 var w2 = rect.Width - w - divisionWidth;
-                rects.Add(new CellRect(rect.minX, rect.minZ, w, rect.Height));
-                rects.Add(new CellRect(w + rect.minX + divisionWidth, rect.minZ, w2, rect.Height));
+                rects.Add(new Rect(rect.minX, rect.minY, w, rect.Height));
+                rects.Add(new Rect(w + rect.minX + divisionWidth, rect.minY, w2, rect.Height));
             }
             else
             {
  
                 var h = Math.Max(minHeight, (int)Math.Floor(random.NextDouble() * rect.Height / 2));
                 var h2 = rect.Height - h - divisionWidth;
-                rects.Add(new CellRect(rect.minX, rect.minZ, rect.Width, h));
-                rects.Add(new CellRect(rect.minX, rect.minZ + h + divisionWidth, rect.Width, h2));
+                rects.Add(new Rect(rect.minX, rect.minY, rect.Width, h));
+                rects.Add(new Rect(rect.minX, rect.minY + h + divisionWidth, rect.Width, h2));
             }
             return rects;
 
@@ -94,19 +97,19 @@ namespace Generator
 
 
 
-        public List<CellRect> parallelCutSubdivide (CellRect rect, int subdivision_width, int subdivision_height)
+        public List<Rect> parallelCutSubdivide (Rect rect, int subdivision_width, int subdivision_height)
         {
-            var output = new List<CellRect>();
+            var output = new List<Rect>();
             var minX = rect.minX;
-            var minZ = rect.minZ;
+            var minZ = rect.minY;
 
            
             var i_1 = 0;
             var j_1 = 0;
 
             var maximumCount = getMaximumNumberOfPropsPlaced(rect, subdivision_width, subdivision_height);
-            var horizontalCount = maximumCount.x;
-            var verticalCount = maximumCount.z;
+            var horizontalCount = maximumCount.X;
+            var verticalCount = maximumCount.Y;
 
 
             var remainders = getRemainder(rect, subdivision_width, subdivision_height);
@@ -120,7 +123,7 @@ namespace Generator
                     i_1 = i * subdivision_width;
                     j_1 = j * subdivision_height; 
 
-                    var r = new CellRect(minX + i_1, minZ + j_1, subdivision_width, subdivision_height);
+                    var r = new Rect(minX + i_1, minZ + j_1, subdivision_width, subdivision_height);
                 
                     output.Add(r);
                 }
@@ -129,31 +132,31 @@ namespace Generator
             return output;
         }
 
-        public IntVec2 getRemainder(CellRect rect, int subdivision_width, int subdivision_height)
+        public Point getRemainder(Rect rect, int subdivision_width, int subdivision_height)
         {
 
             var maximumCount = getMaximumNumberOfPropsPlaced(rect, subdivision_width, subdivision_height);
-            var horizontalCount = maximumCount.x;
-            var verticalCount = maximumCount.z;
+            var horizontalCount = maximumCount.X;
+            var verticalCount = maximumCount.Y;
 
 
 
             var vertical_remainder = rect.Height % (subdivision_height * verticalCount);
             var horizontal_remainder = rect.Width % (subdivision_width * horizontalCount);
 
-            return new IntVec2(horizontal_remainder, vertical_remainder);
+            return new Point(horizontal_remainder, vertical_remainder);
         }
 
-        public IntVec2 getMaximumNumberOfPropsPlaced(CellRect rect, int subdivision_width, int subdivision_height)
+        public Point getMaximumNumberOfPropsPlaced(Rect rect, int subdivision_width, int subdivision_height)
         {
             var horizontalCount = rect.Width / subdivision_width;
             var verticalCount = (rect.Height) / (subdivision_height ) ;
 
 
-            return new IntVec2(horizontalCount, verticalCount);
+            return new Point(horizontalCount, verticalCount);
         }
 
-        public IntVec2 getMaximumNumberOfPropsPlacedWithinBounds(CellRect rect, int subdivision_width, int subdivision_height, int area)
+        public Point getMaximumNumberOfPropsPlacedWithinBounds(Rect rect, int subdivision_width, int subdivision_height, int area)
         {
 
             var sqrt = (int)Math.Sqrt(area);
@@ -165,18 +168,18 @@ namespace Generator
             var verticalCount = (rect.Height) / (subdivision_height);
             
 
-            return new IntVec2(Math.Min(horizontalCount,h), Math.Min(v, verticalCount));
+            return new Point(Math.Min(horizontalCount,h), Math.Min(v, verticalCount));
         }
 
-        public int getSortValue(CellRect rect, int subdivision_width, int subdivision_height)
+        public int getSortValue(Rect rect, int subdivision_width, int subdivision_height)
         {
 
             var remainders = getRemainder(rect, subdivision_width, subdivision_height);
             var maximumCount = getMaximumNumberOfPropsPlaced(rect, subdivision_width, subdivision_height);
-            var horizontalCount = maximumCount.x;
-            var verticalCount = maximumCount.z;
-            var vertical_remainder = remainders.z;
-            var horizontal_remainder = remainders.x;
+            var horizontalCount = maximumCount.X;
+            var verticalCount = maximumCount.Y;
+            var vertical_remainder = remainders.Y;
+            var horizontal_remainder = remainders.X;
 
 
             return - (horizontalCount * verticalCount ) * (vertical_remainder) * (horizontal_remainder);

@@ -1,18 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using Dungeon_Generator_Core.Geometry;
 
-namespace Generator.Layout
+namespace Dungeon_Generator_Core.Generator
 {
     class ClusterGenerator
     {
 
         System.Random random = new System.Random();
-        public double defaultSpreadPossibility = .75;
+        public double defaultSpreadPossibility = .95;
+
+        public List<Rect> testCase()
+        {
+            return new Rect[] {new Rect(new Point(0,0),1,1) , new Rect(new Point(1, 0), 1, 1) , new Rect(new Point(0, 1), 1, 1) , new Rect(new Point(1,1), 1, 1), new Rect(new Point(2, 1), 1, 1), new Rect(new Point(2, 0), 1, 1) }.ToList();
+        }
 
         public List<Rect> execute(int x, int y)
         {
             List<Rect> rects = new List<Rect>();
             recursiveGenerate(0, 0, defaultSpreadPossibility, rects);
+       
             return rects;
         }
 

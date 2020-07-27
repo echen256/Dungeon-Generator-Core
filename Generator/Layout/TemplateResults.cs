@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Dungeon_Generator_Core.Geometry;
+using Dungeon_Generator_Core.Generator;
 
-namespace Generator.Layout
+namespace Dungeon_Generator_Core.Layout
 {
    
         struct TemplateResults

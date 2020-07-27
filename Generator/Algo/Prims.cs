@@ -1,12 +1,9 @@
-﻿using DelaunatorSharp.Interfaces;
+﻿
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using UnityEngine;
-using DelaunatorSharp.Models;
+using Dungeon_Generator_Core.Geometry;
 
-namespace Generator
+namespace Dungeon_Generator_Core.Generator
 {
     public class Prims
     {

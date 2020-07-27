@@ -1,9 +1,9 @@
 ﻿
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Linq; 
 
-namespace Generator
+namespace Dungeon_Generator_Core.Geometry
 {
  
     public static class Directions
@@ -20,6 +20,10 @@ namespace Generator
             this.Y = y;
         }
 
+        public override string ToString()
+        {
+            return "(" + X + ',' + Y + ')';
+        }
         public override int GetHashCode()
         {
             return (int)(X * 10012 + Y * 4312);
@@ -108,8 +112,12 @@ namespace Generator
             }
         }
 
-        public int weight;
-        public int distance;
+        public int weight { get {
+               var d = Math.Sqrt(Math.Pow(Q.X - P.X, 2) + Math.Pow(Q.Y - P.Y, 2));
+                return (int)d;
+
+
+            } } 
 
         public override bool Equals(object obj)
         {
@@ -121,7 +129,7 @@ namespace Generator
 
         public bool Connected(Edge e2)
         {
-            return e2.P == P || e2.Q == P || e2.P == Q || e2.Q == Q;
+            return ! e2.Equals(this) && (e2.P.Equals( P) || e2.Q.Equals(P) || e2.P.Equals(Q) || e2.Q.Equals( Q));
         }
 
         public static List<Edge> getConnected (Edge e, List<Edge> edges)
@@ -130,6 +138,11 @@ namespace Generator
             {
                 return e.Connected(e2);
             }).ToList();
+        }
+
+        public override string ToString()
+        {
+            return "[" + P.ToString() + "," + Q.ToString() + "]";
         }
 
         public List<Point> getPoints()
@@ -216,7 +229,7 @@ namespace Generator
         {
             get
             {
-                return max.Y;
+                return max.Y ;
             }
         }
         public Point min { get; set; }
@@ -225,7 +238,7 @@ namespace Generator
 
         public Point max { get
             {
-                return new Point(min.X + Width, min.Y + Height);
+                return new Point(min.X + Width - 1, min.Y + Height - 1);
             }
             }
 
@@ -265,6 +278,11 @@ namespace Generator
         public bool Equals(Rect other)
         {
             return other.min == this.min && other.Width == this.Width && other.Height == this.Height;
+        }
+
+        public override string ToString()
+        {
+            return "[" + min.ToString() + ", w:" + Width + ", h: " + Height + "]";
         }
     }
 
