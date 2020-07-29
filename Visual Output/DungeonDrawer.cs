@@ -143,6 +143,15 @@ namespace Dungeon_Generator_Core.Generator.Visual_Output
                 { "entrance", new SolidBrush(ColorTranslator.FromHtml("#5642A6")) },
                 { "wall", new SolidBrush(ColorTranslator.FromHtml("#293742")) }
             };
+            var propList = new Prop[] {
+                new Prop(2,1,30,Color.Red, true),
+                 new Prop(2,1,30,Color.Orange, true),
+                 new Prop(3,3,50,Color.Green, false),
+                 new Prop(4,4,50,Color.GreenYellow, false),
+                 new Prop(5,5,50,Color.DarkGreen, false),
+                 new Prop(1,1,5,Color.Blue, true),
+                 new Prop(1,2,10,Color.DarkBlue, true)
+            }.ToList();
             Graphics formGraphics = form.CreateGraphics();
 
             var factor = 5;
@@ -172,7 +181,7 @@ namespace Dungeon_Generator_Core.Generator.Visual_Output
 
                 if (r.category == "room")
                 {
-                    var props = new FurnitureLayoutGenerator().generateRoomLayout(r);
+                    var props = new FurnitureLayoutGenerator().generateRoomLayout(r, propList   );
                     props.ForEach((propData) => {
                         var position = propData.position;
                         var prop = propData.prop;

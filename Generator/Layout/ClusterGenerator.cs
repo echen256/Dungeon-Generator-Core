@@ -9,7 +9,8 @@ namespace Dungeon_Generator_Core.Generator
     {
 
         System.Random random = new System.Random();
-        public double defaultSpreadPossibility = .95;
+        public readonly double defaultSpreadPossibility = .95;
+        public readonly double defaultReductionFactor = .5;
 
         public List<Rect> testCase()
         {
@@ -18,13 +19,22 @@ namespace Dungeon_Generator_Core.Generator
 
         public List<Rect> execute(int x, int y)
         {
+            return execute(x, y, defaultSpreadPossibility, defaultReductionFactor);
+        }
+
+        public List<Rect> execute(int x, int y, double spreadProbability  )
+        {
+            return execute(x, y, spreadProbability, defaultReductionFactor);
+        }
+
+        public List<Rect> execute(int x, int y, double spreadProbability, double reductionFactor)
+        {
             List<Rect> rects = new List<Rect>();
-            recursiveGenerate(0, 0, defaultSpreadPossibility, rects);
-       
+            recursiveGenerate(x, y, spreadProbability, reductionFactor, rects);
             return rects;
         }
 
-        void recursiveGenerate (int x, int y , double probability, List<Rect> rects)
+        void recursiveGenerate (int x, int y , double probability, double reduction, List<Rect> rects)
         {
             var rect = new Rect(x, y, 1, 1);
             if (rects.Contains(rect))
@@ -41,7 +51,7 @@ namespace Dungeon_Generator_Core.Generator
                         if (random.NextDouble() < probability)
                         {
 
-                            recursiveGenerate(x + i, j + y, probability / 2, rects);
+                            recursiveGenerate(x + i, j + y, probability * reduction, reduction, rects);
                         }
                     }
                 }

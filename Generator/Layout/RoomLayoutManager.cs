@@ -10,6 +10,7 @@ namespace Dungeon_Generator_Core.Layout
 {
     class RoomLayoutManager
     {
+ 
         public List<Room> execute (TemplateResults formattedRects)
         {
             var rooms = new List<Room>();
@@ -30,43 +31,56 @@ namespace Dungeon_Generator_Core.Layout
 			chooseEntrances(rooms );
             
            
-            rooms = mergeRooms(rooms, 2);
-           
+            rooms = mergeRooms(rooms,1,IsDisconnected, IsValidRoom );
+            rooms = mergeRooms(rooms, 1, IsValidRoom, IsValidRoom);
+            rooms = mergeRooms(rooms, 100, IsHallwayRoom, IsHallwayRoom);
+
             return rooms;
 
-        } 
-		public List<Room> mergeRooms (List<Room> rooms, int iterations)  {
-            if (iterations == 0) return rooms;
-            var newRooms = new List<Room>();
-			while (rooms.Count > 0)
-			{
-                var r = rooms[rooms.Count - 1];
-                rooms.RemoveAt(rooms.Count - 1);
+        }
 
-                if (r.category == "room"  )
-                {
+        private bool IsHallwayRoom(Room r)
+        {
+            return r.category == "path" || r.category == "center" ;
+        }
+        private bool IsValidRoom (Room r)
+        {
+            return r.category == "room";
+        }
+        private bool IsDisconnected (Room r)
+        {
+            return r.entrances.Count == 0;
+        }
+		public List<Room> mergeRooms (List<Room> rooms, int iterations, Func<Room, bool> eligibility, Func<Room, bool> validNeighbor)  {
+
+            var eligibleRooms = new List<Room>(rooms.Where(eligibility ).Where(validNeighbor));
+
+            if (eligibleRooms.Count() == 0 || iterations == 0)
+            {
+                return rooms;
+            } 
+             
+			while (eligibleRooms.Count  > 0)
+			{
+                var r = eligibleRooms.Last();
+                eligibleRooms.RemoveAt(eligibleRooms.Count - 1);
+ 
                     var area = 1000;
                     Room selectedRoom = null;
-                    var neighbors = r.getNeighbors(rooms).Where((r) => { return r.category == "room"; }).ToList();
-                    neighbors.ForEach((neighbor) => {
-                        if (neighbor.area() < area)
-                        {
-                            selectedRoom = neighbor;
-                            area = neighbor.area();
-                        }
-                    });
-
-
-                    if (selectedRoom != null)
+                    var neighbors = r.getNeighbors(rooms).Where(validNeighbor).ToList();
+                    if (neighbors.Count > 0)
                     {
-                        r.merge(selectedRoom);
-                        rooms.Remove(selectedRoom);
+                        neighbors = neighbors.OrderBy((neighbor) => { return neighbor.area(); }).ToList();
+
+                        r.merge(neighbors[0]);
+                        rooms.Remove(neighbors[0]);
+                        eligibleRooms.Remove(neighbors[0]);
+                        
                     }
-                }
-                newRooms.Add(r);
+               
             }
           
-            return mergeRooms(newRooms,iterations - 1);
+            return mergeRooms(rooms, iterations - 1, eligibility,validNeighbor  );
 		}
 
 	   public void chooseEntrances(List<Room> rooms )
