@@ -26,5 +26,14 @@ namespace Dungeon_Generator_Core
             new DungeonDrawer().execute(pictureBox1);
         }
 
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        public void drawSingleRoom (object sender, EventArgs e)
+        {
+            new DungeonDrawer().drawSingleRoom(pictureBox1);
+        }
     }
 }

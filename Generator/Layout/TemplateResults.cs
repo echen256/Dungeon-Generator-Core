@@ -9,7 +9,7 @@ using Dungeon_Generator_Core.Generator;
 namespace Dungeon_Generator_Core.Layout
 {
    
-        struct TemplateResults
+        class TemplateResults
         {
             public List<Rect> allRects;
         public List<Rect> pathIndices;

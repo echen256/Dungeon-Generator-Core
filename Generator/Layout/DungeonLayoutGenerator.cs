@@ -26,64 +26,15 @@ namespace Dungeon_Generator_Core.Layout
 
             List<Rect> cluster = new ClusterGenerator().execute(0,0);
             var formattedRects = applyTemplate(cluster);
-           
-            formattedRects = selectHallways(formattedRects);
-            formattedRects = selectEntrances(formattedRects);
+           formattedRects = selectHallways(formattedRects);
+           formattedRects = selectEntrances(formattedRects);
             formattedRects = scaleRoomsAndHallways(formattedRects);
-            formattedRects = removeDoubleWalls(formattedRects); 
+             formattedRects = removeDoubleWalls(formattedRects); 
 
 
             return formattedRects;
         }
 
-        /* List<Rect> mergeNextRoom(List<Rect> roomRects)
-         {
-             var output = new List<Rect>();
-             roomRects.Sort((a, b) =>
-             {
-                 return a.minX.CompareTo(b.minX) + a.minY.CompareTo(b.minY);
-             });
-             while (roomRects.Count > 0)
-             {
-                 var r = roomRects[0];
-                 roomRects.RemoveAt(0);
-                 var nextX = r.maxX;
-                 var nextZ = r.maxZ;
-
-                 var adjacentRectX = roomRects.Find((rect) => { return rect.minX == nextX && !output.Contains(rect); });
-                 var adjacentRectZ = roomRects.Find((rect) => { return rect.minY == nextZ && !output.Contains(rect); });
-
-                 if (adjacentRectX != null)
-                 {
-                     if (adjacentRectX.Height == r.Height)
-                     {
-                         output.Add(new Rect(r.minX, r.minY, r.Width + adjacentRectX.Width - 1, r.Height));
-                     }
-                     else
-                     {
-                         output.Add(r);
-
-                     }
-                 }
-                 else if (adjacentRectZ != null)
-                 {
-                     if (adjacentRectX.Width == r.Width)
-                     {
-                         output.Add(new Rect(r.minX, r.minY, r.Width, r.Height + adjacentRectX.Height - 1));
-                     }
-                     else
-                     {
-                         output.Add(r);
-                     }
-
-                 }
-                 else
-                 {
-                     output.Add(r);
-                 }
-             }
-             return output;
-         }*/
 
         TemplateResults removeDoubleWalls(TemplateResults formattedRects)
         {
@@ -239,10 +190,7 @@ namespace Dungeon_Generator_Core.Layout
                     formattedRects.pathIndices.Remove(option); 
                     numberOfEntrances--;
                 }
-               
-               
             }
-
             return formattedRects;
         }
 

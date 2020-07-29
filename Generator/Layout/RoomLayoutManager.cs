@@ -26,51 +26,47 @@ namespace Dungeon_Generator_Core.Layout
             {
                 rooms.Add(new Room(path, "room"));
             });
-
+            rooms = new List<Room>(new HashSet<Room>(rooms));
 			chooseEntrances(rooms );
-           /* var otherRooms = rooms.Where((r) => { return r.category != "room"; });
-            rooms = rooms.Where((r) => { return r.category == "room"; }).ToList();
-            for (var i = 0; i < 1; i++)
-            {
-                rooms = mergeRooms(rooms);
-            }
-		 	
-            rooms.AddRange(otherRooms);*/
-			return rooms;
-
-        }
-
-
-		 
-
-		public List<Room> mergeRooms (List<Room> rooms)  { 
-			var stack = new Stack<Room>(rooms);
-          //  var newRooms = new List<Room>( );
-
-			while (stack.Count > 0)
-			{
-                var r = stack.Pop(); 
-				var neighbors = r.getNeighbors(rooms);
-
-				var area = 1000;
-				Room selectedRoom = null;
-				neighbors.ForEach((neighbor) => {
-					if (neighbor.area() < area)
-					{
-						selectedRoom = neighbor;
-						area = neighbor.area();
-					}
-				});
-
-
-				if (selectedRoom != null)
-				{
-					r.merge(selectedRoom);
-				//	rooms.Remove(selectedRoom);
-				}
-             //   newRooms.Add(r);
-            }
+            
+           
+            rooms = mergeRooms(rooms, 2);
+           
             return rooms;
+
+        } 
+		public List<Room> mergeRooms (List<Room> rooms, int iterations)  {
+            if (iterations == 0) return rooms;
+            var newRooms = new List<Room>();
+			while (rooms.Count > 0)
+			{
+                var r = rooms[rooms.Count - 1];
+                rooms.RemoveAt(rooms.Count - 1);
+
+                if (r.category == "room"  )
+                {
+                    var area = 1000;
+                    Room selectedRoom = null;
+                    var neighbors = r.getNeighbors(rooms).Where((r) => { return r.category == "room"; }).ToList();
+                    neighbors.ForEach((neighbor) => {
+                        if (neighbor.area() < area)
+                        {
+                            selectedRoom = neighbor;
+                            area = neighbor.area();
+                        }
+                    });
+
+
+                    if (selectedRoom != null)
+                    {
+                        r.merge(selectedRoom);
+                        rooms.Remove(selectedRoom);
+                    }
+                }
+                newRooms.Add(r);
+            }
+          
+            return mergeRooms(newRooms,iterations - 1);
 		}
 
 	   public void chooseEntrances(List<Room> rooms )
@@ -82,7 +78,7 @@ namespace Dungeon_Generator_Core.Layout
                 var neighboringPaths = r.getNeighbors(pathRooms);
                 var neighboringPoints = new List<Point>();
                 neighboringPaths.ForEach((rect) => {
-                    neighboringPoints.AddRange(rect.getEdgePoints());
+                    neighboringPoints.AddRange(rect.edgePoints);
                 });
                 var borderPoints = r.points.Where((p) => {
                     return Point.getNeighbors(p, neighboringPoints).Count > 0;

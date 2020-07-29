@@ -7,6 +7,8 @@ using System.Drawing;
 using System.Data.Common;
 using Dungeon_Generator_Core.Geometry;
 using Dungeon_Generator_Core.Layout;
+using System.Linq;
+using System.Diagnostics;
 
 namespace Dungeon_Generator_Core.Generator.Visual_Output
 {
@@ -74,15 +76,15 @@ namespace Dungeon_Generator_Core.Generator.Visual_Output
                 formGraphics.DrawLine(pen, new System.Drawing.Point(offsetX + factor * p1.X, offsetY + factor * p1.Y), new System.Drawing.Point(offsetX + factor * p2.X, offsetY + factor * p2.Y));
             }
         }
-        public void execute(PictureBox form)
+        
+        public void drawSingleRoom(PictureBox form)
         {
-
-            var templateResults = new DungeonLayout().execute(0, 0);
-            var rooms = new RoomLayoutManager().execute(templateResults);
-            var rects = templateResults.nonPathIndices;
-
+            form.Image = null;
+            form.Update();
+            var rooms = new HashSet<Room>(new Room[] { new Room(new Rect(new Point(0, 0), 10, 10), "room"), new Room(new Rect(new Point(0, 0), 10, 10), "room") }).ToList();
+            Debug.WriteLine(rooms.Count);
             Pen border = new Pen(ColorTranslator.FromHtml("#10161A"));
-  
+
 
             var palette = new Dictionary<string, SolidBrush> {
                 { "room", new System.Drawing.SolidBrush(ColorTranslator.FromHtml("#5C7080"))},
@@ -97,18 +99,94 @@ namespace Dungeon_Generator_Core.Generator.Visual_Output
             var offsetX = 100;
             var offsetY = 100;
 
+           
+            rooms.ForEach((r) => {
+                foreach(Point p in r.points)
+                {
+                    drawSingleTile(p, r, palette[r.category], border, factor, offsetX, offsetY, formGraphics);
+                }
+                foreach (Point p in r.entrances)
+                {
+                    drawSingleTile(p, r, palette["entrance"], border, factor, offsetX, offsetY, formGraphics);
+                }
+ 
+                if (r.category == "room")
+                {
+                    var props = new FurnitureLayoutGenerator().generateRoomLayout(r);
+                    props.ForEach((propData) => {
+                        var position = propData.position;
+                        var prop = propData.prop;
+                        var brush = new SolidBrush(prop.color);
+                        for (var i = 0; i < prop.width; i++)
+                        {
+                            for (var j = 0; j < prop.height; j++)
+                            {
+                                drawSingleTile(new Point(i, j) + position, r, brush, border, factor, offsetX, offsetY, formGraphics);
+                            }
+                        }
+                    });
+                }
+
+
+            });
+        }
+        
+        public void execute(PictureBox form)
+        {
+            form.Image = null;
+            form.Update();
+            Pen border = new Pen(ColorTranslator.FromHtml("#10161A"));
+            var palette = new Dictionary<string, SolidBrush> {
+                { "room", new System.Drawing.SolidBrush(ColorTranslator.FromHtml("#5C7080"))},
+                { "path" , new System.Drawing.SolidBrush(ColorTranslator.FromHtml("#BFCCD6"))},
+                { "center" , new SolidBrush(ColorTranslator.FromHtml("#CED9E0"))},
+                { "entrance", new SolidBrush(ColorTranslator.FromHtml("#5642A6")) },
+                { "wall", new SolidBrush(ColorTranslator.FromHtml("#293742")) }
+            };
+            Graphics formGraphics = form.CreateGraphics();
+
+            var factor = 5;
+            var offsetX = 100;
+            var offsetY = 100;
+
+
+            var templateResults = new DungeonLayout().execute(0, 0);
+            var rooms = new RoomLayoutManager().execute(templateResults);
+
 
             rooms.ForEach((r) => {
 
-                r.points.ForEach((p) => {
-                    drawSingleTile(p,r, palette[r.category], border, factor, offsetX, offsetY, formGraphics);
-                });
-                r.entrances.ForEach((p) => {
+                var count = rooms.FindAll(r.Equals).Count;
+                foreach (Point p in r.innerPoints)
+                {
+                    drawSingleTile(p, r, palette[r.category], border, factor, offsetX, offsetY, formGraphics);
+                }
+                foreach (Point p in r.edgePoints)
+                {
+                    drawSingleTile(p, r, palette["wall"], border, factor, offsetX, offsetY, formGraphics);
+                }
+                foreach (Point p in r.entrances)
+                {
                     drawSingleTile(p, r, palette["entrance"], border, factor, offsetX, offsetY, formGraphics);
-                });
+                }
+
+                if (r.category == "room")
+                {
+                    var props = new FurnitureLayoutGenerator().generateRoomLayout(r);
+                    props.ForEach((propData) => {
+                        var position = propData.position;
+                        var prop = propData.prop;
+                        var brush = new SolidBrush(prop.color);
+                        for (var i = 0; i < prop.width; i++)
+                        {
+                            for (var j = 0; j < prop.height; j++)
+                            {
+                                drawSingleTile(new Point(i, j) + position, r, brush, border, factor, offsetX, offsetY, formGraphics);
+                            }
+                        }
+                    });
+                }
             });
-            
-         
         }
     }
 }

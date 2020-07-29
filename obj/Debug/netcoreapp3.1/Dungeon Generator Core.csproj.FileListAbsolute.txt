@@ -14,3 +14,4 @@ E:\Dev\Github\Dungeon Generator Core\obj\Debug\netcoreapp3.1\Dungeon Generator C
 E:\Dev\Github\Dungeon Generator Core\bin\Debug\netcoreapp3.1\DelaunatorSharp.dll
 E:\Dev\Github\Dungeon Generator Core\obj\Debug\netcoreapp3.1\Dungeon Generator Core.csproj.CoreCompileInputs.cache
 E:\Dev\Github\Dungeon Generator Core\obj\Debug\netcoreapp3.1\Dungeon Generator Core.csproj.CopyComplete
+E:\Dev\Github\Dungeon Generator Core\obj\Debug\netcoreapp3.1\Dungeon Generator Core.csprojAssemblyReference.cache

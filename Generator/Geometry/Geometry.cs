@@ -68,6 +68,21 @@ namespace Dungeon_Generator_Core.Geometry
             return results;
 
         }
+
+        public static List<Point> getNeighbors(Point p, Point[] points)
+        {
+            var results = new List<Point>();
+            Directions.directions.ForEach((dir) =>
+            {
+                var p2 = p + dir;
+                if (points.Contains(p2))
+                {
+                    results.Add(p2);
+                }
+            });
+            return results;
+
+        }
     }
     public class Edge 
     {
