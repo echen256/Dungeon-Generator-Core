@@ -16,6 +16,24 @@ namespace Dungeon_Generator_Core.Generator.Visual_Output
     using Point = Dungeon_Generator_Core.Geometry.Point;
     class DungeonDrawer
     {
+
+        Pen border = new Pen(ColorTranslator.FromHtml("#10161A"));
+        Dictionary<string, SolidBrush> palette = new Dictionary<string, SolidBrush> {
+                { "room", new System.Drawing.SolidBrush(ColorTranslator.FromHtml("#5C7080"))},
+                { "path" , new System.Drawing.SolidBrush(ColorTranslator.FromHtml("#BFCCD6"))},
+                { "center" , new SolidBrush(ColorTranslator.FromHtml("#CED9E0"))},
+                { "entrance", new SolidBrush(ColorTranslator.FromHtml("#5642A6")) },
+                { "wall", new SolidBrush(ColorTranslator.FromHtml("#293742")) }
+            };
+        List<Prop> propList = new Prop[] {
+                new Prop(2,1,30,Color.Red, true),
+                 new Prop(2,1,30,Color.Orange, true),
+                 new Prop(3,3,50,Color.Green, false),
+                 new Prop(4,4,50,Color.GreenYellow, false),
+                 new Prop(5,5,50,Color.DarkGreen, false),
+                 new Prop(1,1,5,Color.Blue, true),
+                 new Prop(1,2,10,Color.DarkBlue, true)
+            }.ToList();
         public void offsetRects (List<Rect> rects)
         {
             var minX = int.MaxValue;
@@ -83,16 +101,7 @@ namespace Dungeon_Generator_Core.Generator.Visual_Output
             form.Update();
             var rooms = new HashSet<Room>(new Room[] { new Room(new Rect(new Point(0, 0), 10, 10), "room"), new Room(new Rect(new Point(0, 0), 10, 10), "room") }).ToList();
             Debug.WriteLine(rooms.Count);
-            Pen border = new Pen(ColorTranslator.FromHtml("#10161A"));
-
-
-            var palette = new Dictionary<string, SolidBrush> {
-                { "room", new System.Drawing.SolidBrush(ColorTranslator.FromHtml("#5C7080"))},
-                { "path" , new System.Drawing.SolidBrush(ColorTranslator.FromHtml("#BFCCD6"))},
-                { "center" , new SolidBrush(ColorTranslator.FromHtml("#CED9E0"))},
-                { "entrance", new SolidBrush(ColorTranslator.FromHtml("#5642A6")) }
-            };
-
+ 
             Graphics formGraphics = form.CreateGraphics();
 
             var factor = 5;
@@ -112,7 +121,7 @@ namespace Dungeon_Generator_Core.Generator.Visual_Output
  
                 if (r.category == "room")
                 {
-                    var props = new FurnitureLayoutGenerator().generateRoomLayout(r);
+                    var props = new FurnitureLayoutGenerator().generateRoomLayout(r, propList, 1000);
                     props.ForEach((propData) => {
                         var position = propData.position;
                         var prop = propData.prop;
@@ -135,23 +144,7 @@ namespace Dungeon_Generator_Core.Generator.Visual_Output
         {
             form.Image = null;
             form.Update();
-            Pen border = new Pen(ColorTranslator.FromHtml("#10161A"));
-            var palette = new Dictionary<string, SolidBrush> {
-                { "room", new System.Drawing.SolidBrush(ColorTranslator.FromHtml("#5C7080"))},
-                { "path" , new System.Drawing.SolidBrush(ColorTranslator.FromHtml("#BFCCD6"))},
-                { "center" , new SolidBrush(ColorTranslator.FromHtml("#CED9E0"))},
-                { "entrance", new SolidBrush(ColorTranslator.FromHtml("#5642A6")) },
-                { "wall", new SolidBrush(ColorTranslator.FromHtml("#293742")) }
-            };
-            var propList = new Prop[] {
-                new Prop(2,1,30,Color.Red, true),
-                 new Prop(2,1,30,Color.Orange, true),
-                 new Prop(3,3,50,Color.Green, false),
-                 new Prop(4,4,50,Color.GreenYellow, false),
-                 new Prop(5,5,50,Color.DarkGreen, false),
-                 new Prop(1,1,5,Color.Blue, true),
-                 new Prop(1,2,10,Color.DarkBlue, true)
-            }.ToList();
+          
             Graphics formGraphics = form.CreateGraphics();
 
             var factor = 5;
@@ -181,7 +174,7 @@ namespace Dungeon_Generator_Core.Generator.Visual_Output
 
                 if (r.category == "room")
                 {
-                    var props = new FurnitureLayoutGenerator().generateRoomLayout(r, propList   );
+                    var props = new FurnitureLayoutGenerator().generateRoomLayout(r, propList, 1000   );
                     props.ForEach((propData) => {
                         var position = propData.position;
                         var prop = propData.prop;

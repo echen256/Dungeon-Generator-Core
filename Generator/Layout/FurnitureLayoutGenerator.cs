@@ -17,28 +17,24 @@ namespace Dungeon_Generator_Core.Layout
     class FurnitureLayoutGenerator
     {
 		Random random = new Random();
-        public List<PlacedProp> generateRoomLayout (Room r, List<Prop> props)
+        public List<PlacedProp> generateRoomLayout (Room r, List<Prop> props, int money)
         {
 			var points = r.innerPoints.ToList();
-			
-			 
 			var loopPoints = new List<Point>( points);
 			var originalPoints = new List<Point>( points);
 			var placedProps = new List<PlacedProp>();
 			while (loopPoints.Count > 0)
 			{
-
-				int money = 1000;
+				
 				loopPoints = loopPoints.OrderBy((a) => {
 					return Point.getNeighbors(a, loopPoints).Count() ;
 				}).ToList();
 
-				var index = 0;
-				// var index = Math.floor(Math.random() * loopPoints.length)
+				var index = 0; 
 				var p = loopPoints[index];
-
-
 				loopPoints.RemoveAt(index);
+
+
 				var validProps = new List<PossiblePropPositions>();
 				props = props.OrderBy((a) => { return random.NextDouble(); } ).ToList();
 				for (var j = 0; j < props.Count; j++)

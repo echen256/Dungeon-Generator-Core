@@ -24,7 +24,7 @@ namespace Dungeon_Generator_Core.Layout
         public TemplateResults execute(int x, int y)
         {
 
-            List<Rect> cluster = new ClusterGenerator().execute(0,0);
+            List<Rect> cluster = new ClusterGenerator().execute(0,0,.95,.65);
             var formattedRects = applyTemplate(cluster);
            formattedRects = selectHallways(formattedRects);
            formattedRects = selectEntrances(formattedRects);
