@@ -6,7 +6,7 @@ using Dungeon_Generator_Core.Geometry;
 using Dungeon_Generator_Core.Layout;
 using Dungeon_Generator_Core.Generator;
 
-namespace Dungeon_Generator_Core.Generator.Layout
+namespace Dungeon_Generator_Core.Layout
 {
     struct DungeonLayoutSettings
     {

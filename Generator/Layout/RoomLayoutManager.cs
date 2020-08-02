@@ -8,9 +8,67 @@ using System.Data;
 
 namespace Dungeon_Generator_Core.Layout
 {
-    class RoomLayoutManager
+    public class RoomLayoutManager
     {
  
+        public static List<Point> getBoundsOfRooms (List<Room> rooms)
+        {
+            var minX = int.MaxValue;
+            var minY = int.MaxValue;
+            var maxX = int.MinValue;
+            var maxY = int.MinValue;
+
+            for (var i = 0; i < rooms.Count
+                ; i++)
+            {
+                var points = rooms[i].points;
+                for (var j = 0; j < points.Length
+                    ; j++)
+                {
+                    if (minX > points[j].X)
+                    {
+                        minX = points[j].X;
+                    }
+                    if (minY > points[j].Y)
+                    {
+                        minY = points[j].Y;
+                    }
+                    if (maxX < points[j].X)
+                    {
+                        maxX = points[j].X;
+                    }
+                    if (maxY < points[j].Y)
+                    {
+                        maxY = points[j].Y;
+                    }
+                }
+            }
+
+            return new Point[] {  new Point(minX,minY), new Point(maxX,maxY), new Point(maxX - minX, maxY - minY)}.ToList();
+        }
+        public static List<Room> adjustToCenterOfBounds (List<Room> rooms, int minBoundsX, int minBoundsY, int sizeX, int sizeY)
+        {
+
+            var bounds = getBoundsOfRooms(rooms);
+            var minX = bounds[0].X;
+            var minY = bounds[0].Y;
+
+            var offsetX = minBoundsX - minX;
+            var offsetY = minBoundsY - minY;
+            for (var i = 0; i < rooms.Count
+                ; i++)
+            {
+                var points = rooms[i].points;
+                for (var j = 0; j < points.Length
+                    ; j++)
+                {
+                    points[j].X += offsetX;
+                    points[j].Y += offsetY;
+                }
+            }
+
+            return rooms;
+        }
         public List<Room> execute (TemplateResults formattedRects)
         {
             var rooms = new List<Room>();

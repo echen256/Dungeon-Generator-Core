@@ -8,8 +8,8 @@ using Dungeon_Generator_Core.Generator;
 
 namespace Dungeon_Generator_Core.Layout
 {
-   
-        class TemplateResults
+
+    public class TemplateResults
         {
             public List<Rect> allRects;
         public List<Rect> pathIndices;

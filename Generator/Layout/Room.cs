@@ -10,7 +10,7 @@ using Dungeon_Generator_Core.Geometry;
 
 namespace Dungeon_Generator_Core.Generator
 {
-    class Room
+    public class Room
     {
         public List<Point> entrances;
         public Point[] points;

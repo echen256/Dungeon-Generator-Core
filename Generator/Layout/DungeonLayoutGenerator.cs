@@ -15,7 +15,7 @@ namespace Dungeon_Generator_Core.Layout
     using Edge = Dungeon_Generator_Core.Geometry.Edge;
     using Point = Dungeon_Generator_Core.Geometry.Point;
     using Rect = Dungeon_Generator_Core.Geometry.Rect;
-    class DungeonLayout
+    public class DungeonLayout
     {
 
         

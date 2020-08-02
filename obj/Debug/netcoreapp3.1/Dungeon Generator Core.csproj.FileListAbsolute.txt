@@ -8,10 +8,9 @@ E:\Dev\Github\Dungeon Generator Core\obj\Debug\netcoreapp3.1\Dungeon Generator C
 E:\Dev\Github\Dungeon Generator Core\obj\Debug\netcoreapp3.1\Dungeon Generator Core.AssemblyInfo.cs
 E:\Dev\Github\Dungeon Generator Core\obj\Debug\netcoreapp3.1\Dungeon Generator Core.dll
 E:\Dev\Github\Dungeon Generator Core\obj\Debug\netcoreapp3.1\Dungeon Generator Core.pdb
-E:\Dev\Github\Dungeon Generator Core\obj\Debug\netcoreapp3.1\Dungeon Generator Core.genruntimeconfig.cache
-E:\Dev\Github\Dungeon Generator Core\obj\Debug\netcoreapp3.1\Dungeon_Generator_Core.Form1.resources
-E:\Dev\Github\Dungeon Generator Core\obj\Debug\netcoreapp3.1\Dungeon Generator Core.csproj.GenerateResource.cache
 E:\Dev\Github\Dungeon Generator Core\bin\Debug\netcoreapp3.1\DelaunatorSharp.dll
 E:\Dev\Github\Dungeon Generator Core\obj\Debug\netcoreapp3.1\Dungeon Generator Core.csproj.CoreCompileInputs.cache
-E:\Dev\Github\Dungeon Generator Core\obj\Debug\netcoreapp3.1\Dungeon Generator Core.csproj.CopyComplete
+E:\Games\SteamLibrary\steamapps\common\RimWorld\Mods\Generator\Common\Assemblies\netcoreapp3.1\Dungeon Generator Core.deps.json
+E:\Games\SteamLibrary\steamapps\common\RimWorld\Mods\Generator\Common\Assemblies\netcoreapp3.1\Dungeon Generator Core.dll
+E:\Games\SteamLibrary\steamapps\common\RimWorld\Mods\Generator\Common\Assemblies\netcoreapp3.1\Dungeon Generator Core.pdb
 E:\Dev\Github\Dungeon Generator Core\obj\Debug\netcoreapp3.1\Dungeon Generator Core.csprojAssemblyReference.cache

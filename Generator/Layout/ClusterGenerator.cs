@@ -5,7 +5,7 @@ using Dungeon_Generator_Core.Geometry;
 
 namespace Dungeon_Generator_Core.Generator
 {
-    class ClusterGenerator
+    public class ClusterGenerator
     {
 
         System.Random random = new System.Random();

@@ -14,7 +14,7 @@ namespace Dungeon_Generator_Core.Layout
 {
 
 	using Point = Dungeon_Generator_Core.Geometry.Point;
-    class FurnitureLayoutGenerator
+	public class FurnitureLayoutGenerator
     {
 		Random random = new Random();
         public List<PlacedProp> generateRoomLayout (Room r, List<Prop> props, int money)
@@ -152,7 +152,7 @@ namespace Dungeon_Generator_Core.Layout
 
 
 
-	class Prop
+	public class Prop
     {
 		public int cost;
 		public Color color;
@@ -170,7 +170,7 @@ namespace Dungeon_Generator_Core.Layout
         }
     }
 
-	class PlacedProp
+	public class PlacedProp
 	{
 		public Prop prop;
 		public Point position;
@@ -182,7 +182,7 @@ namespace Dungeon_Generator_Core.Layout
         }
 	}
 
-	class PossiblePropPositions
+	public class PossiblePropPositions
 	{
 		public Prop prop;
 		public List<Point> possiblePositions;
