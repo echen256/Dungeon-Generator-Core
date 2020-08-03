@@ -1,0 +1,17 @@
+E:\Dev\Github\DungeonGeneratorCore\DungeonGeneratorCore\obj\Debug\DungeonGeneratorCore.csproj.CoreCompileInputs.cache
+E:\Dev\Github\DungeonGeneratorCore\DungeonGeneratorCore\obj\Debug\DungeonGeneratorCore.csprojAssemblyReference.cache
+E:\Dev\Github\DungeonGeneratorCore\DungeonGeneratorCore\bin\Debug\DungeonGeneratorCore.dll
+E:\Dev\Github\DungeonGeneratorCore\DungeonGeneratorCore\bin\Debug\DungeonGeneratorCore.pdb
+E:\Dev\Github\DungeonGeneratorCore\DungeonGeneratorCore\bin\Debug\NetTopologySuite.dll
+E:\Dev\Github\DungeonGeneratorCore\DungeonGeneratorCore\bin\Debug\NetTopologySuite.xml
+E:\Dev\Github\DungeonGeneratorCore\DungeonGeneratorCore\obj\Debug\DungeonGeneratorCore.csproj.CopyComplete
+E:\Dev\Github\DungeonGeneratorCore\DungeonGeneratorCore\obj\Debug\DungeonGeneratorCore.dll
+E:\Dev\Github\DungeonGeneratorCore\DungeonGeneratorCore\obj\Debug\DungeonGeneratorCore.pdb
+E:\Dev\Github\DungeonGeneratorCore\DungeonGeneratorCore\bin\Debug\GeoAPI.CoordinateSystems.dll
+E:\Dev\Github\DungeonGeneratorCore\DungeonGeneratorCore\bin\Debug\GeoAPI.dll
+E:\Dev\Github\DungeonGeneratorCore\DungeonGeneratorCore\bin\Debug\NetTopologySuite.CoordinateSystems.dll
+E:\Dev\Github\DungeonGeneratorCore\DungeonGeneratorCore\bin\Debug\GeoAPI.pdb
+E:\Dev\Github\DungeonGeneratorCore\DungeonGeneratorCore\bin\Debug\GeoAPI.xml
+E:\Dev\Github\DungeonGeneratorCore\DungeonGeneratorCore\bin\Debug\GeoAPI.CoordinateSystems.pdb
+E:\Dev\Github\DungeonGeneratorCore\DungeonGeneratorCore\bin\Debug\GeoAPI.CoordinateSystems.xml
+E:\Dev\Github\DungeonGeneratorCore\DungeonGeneratorCore\bin\Debug\NetTopologySuite.CoordinateSystems.xml
