@@ -58,13 +58,22 @@ namespace Dungeon_Generator_Core.Layout
             for (var i = 0; i < rooms.Count
                 ; i++)
             {
-                var points = rooms[i].points;
+                var room = rooms[i];
+                var points = room.points;
                 for (var j = 0; j < points.Length
                     ; j++)
                 {
                     points[j].X += offsetX;
                     points[j].Y += offsetY;
                 }
+              /*  var entrances = room.entrances;
+                for (var j = 0; j < entrances.Count; j++)
+                {
+                    entrances[j].X += offsetX;
+                    entrances[j].Y += offsetY;
+
+                }*/
+
             }
 
             return rooms;
@@ -152,14 +161,16 @@ namespace Dungeon_Generator_Core.Layout
                 neighboringPaths.ForEach((rect) => {
                     neighboringPoints.AddRange(rect.edgePoints);
                 });
-                var borderPoints = r.points.Where((p) => {
-                    return Point.getNeighbors(p, neighboringPoints).Count > 0;
+
+                var borderPoints = r.edgePoints.Where((p) => {
+                    return neighboringPoints.Contains(p);
                 }).ToList();
-
-
+                 
                 borderPoints = borderPoints.Where((p) => {
-                    return Point.getNeighbors(p, r.points).Count == 3;
+                    return Point.getNeighbors(p, r.points).Count == 3 ;
                 }).ToList();
+
+                
 
                  
                 for (var i = 0; i < Math.Min(1, borderPoints.Count); i++) {

@@ -54,6 +54,26 @@ namespace Dungeon_Generator_Core.Geometry
         {
             return new Point(a.X / b.X, a.Y / b.Y);
         }
+
+        public static List<Point> getDiagnoalNeighbors(Point p, Point[] points)
+        {
+            var results = new List<Point>();
+            for (var i =-1; i < 2; i++)
+            {
+                for (var j = -1; j < 2; j++)
+                {
+                    var dir = new Point(i, j);
+                    if (Math.Abs(i) + Math.Abs(j) == 2)
+                    {
+                        if (points.Contains(dir + p))
+                        {
+                            results.Add(dir + p);
+                        }
+                    }
+                }
+            }
+            return results;
+        }
         public static List<Point> getNeighbors (Point p, List<Point> points)
         {
             var results = new List<Point>();

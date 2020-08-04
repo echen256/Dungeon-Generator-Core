@@ -2,6 +2,7 @@
 using System.Collections.Generic; 
 using System.Linq; 
 using Dungeon_Generator_Core.Geometry;
+using NetTopologySuite.Algorithm.Distance;
 
 namespace Dungeon_Generator_Core.Generator
 {
@@ -15,6 +16,12 @@ namespace Dungeon_Generator_Core.Generator
 
         public static List<Point> directions = new Point[] { new Point(1,0) , new Point(0,1), new Point(-1,0), new Point(0,-1)}.ToList();
     
+        public Room (List<Point> points, string category)
+        {
+            entrances = new List<Point>();
+            this.category = category;
+            populateInternal(points);
+        }
         public Room (Rect rect, string category)
         {
             this.category = category;
@@ -40,7 +47,7 @@ namespace Dungeon_Generator_Core.Generator
             for (var i = 0; i < points.Length; i++)
             {
                 var p = points[i];
-                if (Point.getNeighbors(p, points).Count != 4)
+                if (Point.getNeighbors(p, points).Count != 4 || Point.getDiagnoalNeighbors(p,  points).Count % 2 == 1)
                 {
                     ep.Add(p);
                 }
@@ -73,18 +80,35 @@ namespace Dungeon_Generator_Core.Generator
         public void merge (Room other)
         {
             entrances.AddRange(other.entrances);
-            var list = points.ToList();
-            list.AddRange(other.points.ToList());
-            populateInternal(list);
+            var list = new HashSet<Point>(points );
+            list.UnionWith(other.points.ToList());
+            populateInternal(list.ToList());
            
         }
 
+        public List<Point> getUsableInnerPoints()
+        {
+            var points = innerPoints.ToList();
+            entrances.ForEach((entrance) => {
+                Directions.directions.ForEach((dir) => {
+                    var e2 = dir + entrance;
+                    if (points.Contains(e2))
+                    {
+                        points.Remove(e2);
+                    }
+                });
+            });
+            return points;
+        }
         public void addEntrance (Point entrance)
         {
+          //  var inner = innerPoints.ToList();
             if (points.Contains(entrance))
             {
                 entrances.Add(entrance);
+               
             }
+          //  innerPoints = inner.ToArray();
         }
 
         public int area()
@@ -95,20 +119,8 @@ namespace Dungeon_Generator_Core.Generator
         public static bool IsNeighbor (Room a, Room b)
         {
             if (a.Equals(b)) return false;
-            var isNeighbor = false;
-            var points = a.edgePoints;
-            var edgePoints = new HashSet<Point>(a.edgePoints);
-           
+            var edgePoints = new HashSet<Point>(a.edgePoints);  
             var otherPoints = new HashSet<Point>(b.edgePoints);
-
-            for (var i = 0; i < points.Length; i++)
-            {
-                Directions.directions.ForEach((dir) =>
-                {
-                    edgePoints.Add(dir + points[i]);
-                });
-            }
-       
             return edgePoints.Intersect(otherPoints).Count() > 0;
         }
 

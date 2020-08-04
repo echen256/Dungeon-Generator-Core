@@ -1,5 +1,4 @@
 E:\Dev\Github\DungeonGeneratorCore\DungeonGeneratorCore\obj\Debug\DungeonGeneratorCore.csproj.CoreCompileInputs.cache
-E:\Dev\Github\DungeonGeneratorCore\DungeonGeneratorCore\obj\Debug\DungeonGeneratorCore.csprojAssemblyReference.cache
 E:\Dev\Github\DungeonGeneratorCore\DungeonGeneratorCore\bin\Debug\DungeonGeneratorCore.dll
 E:\Dev\Github\DungeonGeneratorCore\DungeonGeneratorCore\bin\Debug\DungeonGeneratorCore.pdb
 E:\Dev\Github\DungeonGeneratorCore\DungeonGeneratorCore\bin\Debug\NetTopologySuite.dll
