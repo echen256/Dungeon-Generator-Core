@@ -14,3 +14,4 @@ E:\Dev\Github\DungeonGeneratorCore\DungeonGeneratorCore\bin\Debug\GeoAPI.xml
 E:\Dev\Github\DungeonGeneratorCore\DungeonGeneratorCore\bin\Debug\GeoAPI.CoordinateSystems.pdb
 E:\Dev\Github\DungeonGeneratorCore\DungeonGeneratorCore\bin\Debug\GeoAPI.CoordinateSystems.xml
 E:\Dev\Github\DungeonGeneratorCore\DungeonGeneratorCore\bin\Debug\NetTopologySuite.CoordinateSystems.xml
+E:\Dev\Github\DungeonGeneratorCore\DungeonGeneratorCore\obj\Debug\DungeonGeneratorCore.csprojAssemblyReference.cache
