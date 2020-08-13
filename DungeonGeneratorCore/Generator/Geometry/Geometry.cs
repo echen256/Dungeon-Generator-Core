@@ -35,6 +35,8 @@ namespace Dungeon_Generator_Core.Geometry
             return e2.X == X && e2.Y == Y;
         }
 
+        
+
         public static Point operator+(Point a, Point b)
         {
             return new Point(a.X + b.X, a.Y + b.Y);
@@ -65,6 +67,27 @@ namespace Dungeon_Generator_Core.Geometry
                     var dir = new Point(i, j);
                     if (Math.Abs(i) + Math.Abs(j) == 2)
                     {
+                        if (points.Contains(dir + p))
+                        {
+                            results.Add(dir + p);
+                        }
+                    }
+                }
+            }
+            return results;
+        }
+
+        public static List<Point> getFullNeighbors(Point p, Point[] points)
+        {
+            var results = new List<Point>();
+            for (var i = -1; i < 2; i++)
+            {
+                for (var j = -1; j < 2; j++)
+                {
+                   
+                    if (! (i == 0 && j == 0))
+                    {
+                        var dir = new Point(i, j);
                         if (points.Contains(dir + p))
                         {
                             results.Add(dir + p);

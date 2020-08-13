@@ -47,7 +47,7 @@ namespace Dungeon_Generator_Core.Generator
             for (var i = 0; i < points.Length; i++)
             {
                 var p = points[i];
-                if (Point.getNeighbors(p, points).Count != 4 || Point.getDiagnoalNeighbors(p,  points).Count % 2 == 1)
+                if (Point.getFullNeighbors(p,points).Count() != 8)
                 {
                     ep.Add(p);
                 }

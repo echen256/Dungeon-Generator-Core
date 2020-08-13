@@ -19,62 +19,38 @@ namespace Dungeon_Generator_Core.Layout
         public List<PlacedProp> generateRoomLayout (Room room, List<IProp> props, int money)
         {
 	 
-			var points = room.getUsableInnerPoints();
-
-			room = new Room(room.getUsableInnerPoints(), room.category);
-
-			var loopPoints = new List<Point>( points);
-			var originalPoints = new List<Point>( points);
+			var loopPoints = new List<Point>( room.getUsableInnerPoints()); 
 			var placedProps = new List<PlacedProp>();
 			while (loopPoints.Count > 0)
 			{
-				
+				props = props.OrderBy((a) => { return random.NextDouble(); }).ToList();
 				loopPoints = loopPoints.OrderBy((a) => {
 					return Point.getNeighbors(a, loopPoints).Count() ;
 				}).ToList();
 
-				var index = 0; 
-				var p = loopPoints[index];
-				loopPoints.RemoveAt(index);
 
-
-				var validProps = new List<PossiblePropPositions>();
-
-				props = props.OrderBy((a) => { return random.NextDouble(); } ).ToList();
-
+				var p = loopPoints[0];
+				var validPropPositions = new List<PossiblePropPositions>();
+				
 				for (var j = 0; j < props.Count / 2; j++)
 				{
-					var prop = props[j];
-
-					for (var angle = 0; angle < 4; angle += 1)
-					{
-						var radian = Math.PI / 2 * angle; 
-
-						var tempProp = prop.GetRotatedProp(radian);
-
-						var arrayFillPositions = multipleArrayFill(p, points, tempProp, room);
-
-						if (arrayFillPositions.Count > 0)
-						{
-							validProps.Add(new PossiblePropPositions(prop, arrayFillPositions, radian));
-						}
-					}
-
-					
+					 multipleArrayFill(p, loopPoints, props[j], room, validPropPositions);	
 				}
-				if (validProps.Count != 0) {
+
+				if (validPropPositions.Count != 0) {
 					var distributionFactor = random.NextDouble() * 4  + 2;
-					//validProps = validProps.OrderBy<PossiblePropPositions>() ;
-					//validProps = validProps.OrderBy(a => a.prop.Width() * a.prop.Height()).ToList();
-					validProps = validProps.OrderByDescending(a => { return a.GetValue(distributionFactor); } ).ToList();
-					 
-					var selectedPosition = validProps[0];
-					var positions = selectedPosition.possiblePositions;
-					//money -= prop.Cost();
+					validPropPositions = validPropPositions.OrderByDescending(a => { return a.GetValue(distributionFactor); } ).ToList();
+					var selectedPosition = validPropPositions[0];
+					var positions = selectedPosition.possiblePositions; 
 					positions.ForEach((point) => {
-						drawProp(point, points, selectedPosition.prop, placedProps, selectedPosition.rotation);
+						drawProp(point, loopPoints, selectedPosition.prop, placedProps, selectedPosition.rotation);
 					}); 
 				}
+
+				if (loopPoints.Contains(p))
+                {
+					loopPoints.Remove(p);
+                }
 			}
             return placedProps;
         }
@@ -92,7 +68,6 @@ namespace Dungeon_Generator_Core.Layout
 				{
 					positions.Add(point);
 					point = new Point(point.X + direction.X * prop.Width(), point.Y + direction.Y * prop.Height());
-			 
 					currentArea += propArea;
 				}
 				else
@@ -103,18 +78,23 @@ namespace Dungeon_Generator_Core.Layout
 			return positions;
 		}
 
-		public List<Point> multipleArrayFill   (Point point, List<Point> points, IProp prop, Room room)  {
+		public void multipleArrayFill   (Point point, List<Point> points, IProp prop, Room room, List<PossiblePropPositions> validPropPositions)  {
 		 
-			var positions = new List<Point>();
-			
-			Directions.directions.ForEach((dir) => {
-				var possiblePositions = arrayFill(point, points, prop, dir, room);
-				if (possiblePositions.Count >= positions.Count)
-				{
-					positions = possiblePositions;
-				}
-			});
-			return positions;
+		 
+
+			for (var angle = 0; angle < 4; angle += 1)
+			{
+				var radian = Math.PI / 2 * angle;
+
+				var tempProp = prop.GetRotatedProp(radian);
+
+				Directions.directions.ForEach((dir) => { 
+					var possiblePositions = arrayFill(point, points, tempProp, dir, room);
+					validPropPositions.Add(new PossiblePropPositions(tempProp, possiblePositions));	 
+				});
+
+			}
+			 
 		}
 
 		public bool checkIfPropFits   (Point point, List<Point> points, IProp prop, Room room)  {
@@ -139,15 +119,24 @@ namespace Dungeon_Generator_Core.Layout
 
 		public bool checkWallHuggerCondition  (Point point, Room room, IProp prop)  {
 
-			var propRoom = new Room(new Rect(point, prop.Width(), prop.Height()),"prop");
-			var edgePoints = room.edgePoints;
-			return edgePoints.Intersect(propRoom.points).Count() > 0;
+			
+
+			var edgePoints = new List<Point>();
+			for (var i = 0; i < prop.Width(); i++)
+            {
+				for (var j = 0; j < prop.Height(); j++)
+                {
+					edgePoints.Add(new Point(i, j)  + point + prop.Direction());
+                }
+            }
+
+			return edgePoints.Intersect(room.edgePoints).Count() > 0;
 		}
 
 		public void drawProp  (Point point, List<Point> points, IProp prop, List<PlacedProp> placedProps, double rotation)  {
 			var offset = random.Next(1, 3);
-			var width = prop.GetRotatedProp(rotation).width;
-			var height = prop.GetRotatedProp(rotation).height; 
+			var width = prop.GetRotatedProp(rotation).Width();
+			var height = prop.GetRotatedProp(rotation).Height(); 
 			for (var i = -offset; i < width + offset; i++)
 			{
 				for (var j = -offset; j < height + offset; j++)
@@ -169,7 +158,9 @@ namespace Dungeon_Generator_Core.Layout
 		int Width();
 		int Height();
 
-		Prop GetRotatedProp(double radian);
+		Point Direction();
+
+		IProp GetRotatedProp(double radian);
 
 	
 	}
@@ -181,12 +172,17 @@ namespace Dungeon_Generator_Core.Layout
 		public bool wallHugger;
 		public int width;
 		public int height;
+		Point direction;
 	
-		public Prop GetRotatedProp(double radian)
+		public IProp GetRotatedProp(double radian)
 		{ 
 			var newSizeX = (int)Math.Abs(Math.Round( Width() * Math.Cos(radian) - Height() * Math.Sin(radian)));
 			var newSizeY = (int)Math.Abs(Math.Round( Width() * Math.Sin(radian) +  Height() * Math.Cos(radian)));
-			return   new Prop(newSizeX, newSizeY,  Cost(),  Identifier(),  WallHugger());
+			var rotatedDirection = new Point(
+					(int)Math.Round(direction.X * Math.Cos(radian) - direction.Y * Math.Sin(radian)),
+					(int)Math.Round(direction.X * Math.Sin(radian) + direction.Y * Math.Cos(radian))
+				);
+			return   new Prop(newSizeX, newSizeY,  Cost(),  Identifier(),  WallHugger(),rotatedDirection);
 
 		}
 
@@ -204,13 +200,18 @@ namespace Dungeon_Generator_Core.Layout
 		public int Width() { return width;  }
 		public int Height() { return height; }
 
-		public Prop (int width, int height, int cost,string color, bool wallHugger)
+		public Point Direction()
+        {
+			return direction;
+        }
+		public Prop (int width, int height, int cost,string color, bool wallHugger, Point direction)
         {
 			this.width = width;
 			this.height = height;
 			this.cost = cost;
 			this.color = color;
 			this.wallHugger = wallHugger;
+			this.direction = direction;
         }
     }
 
@@ -235,11 +236,10 @@ namespace Dungeon_Generator_Core.Layout
 		public List<Point> possiblePositions;
 		public double rotation;
 
-	public PossiblePropPositions(IProp prop, List<Point> positions, double rotation)
+	public PossiblePropPositions(IProp prop, List<Point> positions )
 		{
 			this.prop = prop;
-			this.possiblePositions = positions;
-			this.rotation = rotation;
+			this.possiblePositions = positions; 
 		}
 
 		public double GetValue(double distributionFactor)
