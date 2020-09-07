@@ -2,6 +2,7 @@
 using System.Collections.Generic; 
 using System.Linq; 
 using Dungeon_Generator_Core.Geometry;
+using Dungeon_Generator_Core.Layout;
 using NetTopologySuite.Algorithm.Distance;
 
 namespace Dungeon_Generator_Core.Generator
@@ -15,7 +16,9 @@ namespace Dungeon_Generator_Core.Generator
         public string category;
 
         public static List<Point> directions = new Point[] { new Point(1,0) , new Point(0,1), new Point(-1,0), new Point(0,-1)}.ToList();
-    
+
+        public List<IProp> props;
+
         public Room (List<Point> points, string category)
         {
             entrances = new List<Point>();

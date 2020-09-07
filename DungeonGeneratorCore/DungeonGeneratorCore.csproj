@@ -63,6 +63,8 @@
     <Compile Include="Generator\Algo\Subdivider.cs" />
     <Compile Include="Generator\Geometry\Geometry.cs" />
     <Compile Include="Generator\Layout\ClusterGenerator.cs" />
+    <Compile Include="Generator\Layout\Distribute.cs" />
+    <Compile Include="Generator\Layout\DungeonGeneratorMain.cs" />
     <Compile Include="Generator\Layout\DungeonLayoutGenerator.cs" />
     <Compile Include="Generator\Layout\FurnitureLayoutGenerator.cs" />
     <Compile Include="Generator\Layout\Room.cs" />
@@ -73,6 +75,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Generator\Layout\PropCollections.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

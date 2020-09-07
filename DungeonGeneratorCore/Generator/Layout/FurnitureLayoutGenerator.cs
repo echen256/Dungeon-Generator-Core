@@ -16,23 +16,31 @@ namespace Dungeon_Generator_Core.Layout
 	public class FurnitureLayoutGenerator
     {
 		Random random = new Random();
-        public List<IProp> generateRoomLayout (Room room, List<IProp> props, int money)
+        public List<IProp> generateRoomLayout (Room room, IPropCollection propCollection, int money)
         {
+			List<IProp> props = propCollection.getPropList();
 			List<IProp> placedProps = new List<IProp>();
 			List<Point> loopPoints = new List<Point>( room.getUsableInnerPoints());
-			var maxCycles = 30;
+
+
+
+
+			var maxCycles = 150;
 			var cycles = 0;
 
 			while (loopPoints.Count > 0 && cycles < maxCycles)
 			{
+				cycles++;
 				if (loopPoints.Count == 0) return placedProps;
+				
+				
 				props = props.OrderBy((a) => { return random.NextDouble(); }).ToList();
 				loopPoints = loopPoints.OrderBy((a) => {
 					return random.NextDouble();
 				}).ToList();
 
 				var p = loopPoints[0];
-				cycles++;
+				
 				var validPropPositions = new List<PossiblePropPositions>();
 				
 				for (var j = 0; j < props.Count / 2; j++)
@@ -82,7 +90,7 @@ namespace Dungeon_Generator_Core.Layout
 
 				}
 			}
-			if (! prop.WallHugger()) return false;
+		//	if (! prop.WallHugger()) return false;
 			return checkWallHuggerCondition(point, room, prop) == prop.WallHugger();
 		}
 
@@ -100,7 +108,7 @@ namespace Dungeon_Generator_Core.Layout
 		}
 
 		public void drawProp  (Point point, IProp prop, List<Point> points,  List<IProp> placedProps )  {
-			var offset = random.Next(1, 3);
+			var offset =1;
 			var width = prop.Width();
 			var height = prop.Height(); 
 			for (var i = -offset; i < width + offset; i++)
@@ -118,8 +126,8 @@ namespace Dungeon_Generator_Core.Layout
 
 		public PossiblePropPositions arrayFill(Point point, List<Point> points, IProp prop, Point direction, Room room)
 		{
-			var maxCount = random.Next(1, 5);
-			var maxArea = random.Next(5, 9);
+			var maxCount = prop.MaximumClusterCount();
+			var maxArea = 20;
 			var possiblePropPositions = new List<Point>();
 			var propArea = prop.Width() * prop.Height();
 			var currentArea = 0;
@@ -141,11 +149,12 @@ namespace Dungeon_Generator_Core.Layout
 		}
 
 
-
 	}
 
 	public interface IProp
     {
+
+		int MaximumClusterCount();
 		int Cost();
 		string Identifier();
 		bool WallHugger();
@@ -168,9 +177,11 @@ namespace Dungeon_Generator_Core.Layout
 		public bool wallHugger;
 		public int width;
 		public int height;
+		int maximumClusterCount;
 		Point direction;
 		Point position;
 	
+
 		public IProp GetRotatedProp(double radian)
 		{ 
 			var newSizeX = (int)Math.Abs(Math.Round( Width() * Math.Cos(radian) - Height() * Math.Sin(radian)));
@@ -179,7 +190,7 @@ namespace Dungeon_Generator_Core.Layout
 					(int)Math.Round(direction.X * Math.Cos(radian) - direction.Y * Math.Sin(radian)),
 					(int)Math.Round(direction.X * Math.Sin(radian) + direction.Y * Math.Cos(radian))
 				);
-			return new Prop(newSizeX, newSizeY,  Cost(),  Identifier(),  WallHugger(),rotatedDirection, position);
+			return new Prop(newSizeX, newSizeY,  Cost(),  Identifier(),  WallHugger(),rotatedDirection, position,maximumClusterCount);
 
 		}
 
@@ -207,11 +218,16 @@ namespace Dungeon_Generator_Core.Layout
 			return position;
         }
 
+		public int MaximumClusterCount()
+        {
+			return maximumClusterCount;
+        }
+
 		public IProp GetPropAtPosition(Point p)
         {
-			return new Prop(width, height, cost, color, wallHugger, direction, p);
+			return new Prop(width, height, cost, color, wallHugger, direction, p, maximumClusterCount);
         }
-		public Prop (int width, int height, int cost,string color, bool wallHugger, Point direction, Point position)
+		public Prop (int width, int height, int cost,string color, bool wallHugger, Point direction, Point position, int maximumClusterCount)
         {
 			this.width = width;
 			this.height = height;
@@ -220,6 +236,7 @@ namespace Dungeon_Generator_Core.Layout
 			this.wallHugger = wallHugger;
 			this.direction = direction;
 			this.position = position;
+			this.maximumClusterCount = maximumClusterCount;
         }
     }
 
