@@ -46,6 +46,9 @@
     <Reference Include="NetTopologySuite.CoordinateSystems, Version=1.15.3.0, Culture=neutral, PublicKeyToken=f580a05016ebada1, processorArchitecture=MSIL">
       <HintPath>packages\NetTopologySuite.CoordinateSystems.1.15.3\lib\net35-client\NetTopologySuite.CoordinateSystems.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>packages\Newtonsoft.Json.12.0.3\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -66,11 +69,16 @@
     <Compile Include="Generator\Layout\Distribute.cs" />
     <Compile Include="Generator\Layout\DungeonGeneratorMain.cs" />
     <Compile Include="Generator\Layout\DungeonLayoutGenerator.cs" />
+    <Compile Include="Generator\Layout\FillTypes\PartitionFill.cs" />
+    <Compile Include="Generator\Layout\FillTypes\SimpleFill.cs" />
     <Compile Include="Generator\Layout\FurnitureLayoutGenerator.cs" />
     <Compile Include="Generator\Layout\Room.cs" />
     <Compile Include="Generator\Layout\RoomLayoutManager.cs" />
     <Compile Include="Generator\Layout\Settings.cs" />
     <Compile Include="Generator\Layout\TemplateResults.cs" />
+    <Compile Include="Generator\TemplateProcessing\Template.cs" />
+    <Compile Include="Generator\TemplateProcessing\TemplateLoader.cs" />
+    <Compile Include="Generator\TemplateProcessing\Zone.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -79,5 +87,6 @@
   <ItemGroup>
     <Compile Include="Generator\Layout\PropCollections.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

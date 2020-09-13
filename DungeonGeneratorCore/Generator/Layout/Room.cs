@@ -31,9 +31,9 @@ namespace Dungeon_Generator_Core.Generator
             entrances = new List<Point>();
 
             var list = new List<Point>();
-            for (var i = 0; i <= rect.Width; i++)
+            for (var i = 0; i < rect.Width; i++)
             {
-                for (var j = 0; j <= rect.Height; j++)
+                for (var j = 0; j < rect.Height; j++)
                 {
                     list.Add(new Point(i + rect.minX, j + rect.minY));
                 }
@@ -127,7 +127,50 @@ namespace Dungeon_Generator_Core.Generator
             return edgePoints.Intersect(otherPoints).Count() > 0;
         }
 
-        
+
+        public Rect getBoundingRectangle()
+        {
+            var minPoint = getMinimumPoint();
+            var maxPoint = getMaximumPoint();
+            return new Rect(minPoint, maxPoint.X - minPoint.X + 1, maxPoint.Y - minPoint.Y + 1);
+        }
+
+        public Point getMinimumPoint()
+        {
+            var minimumX = points[0].X;
+            var minimumY = points[0].Y;
+            for (var i = 0; i < points.Length; i++)
+            {
+                if (points[i].X < minimumX)
+                {
+                    minimumX = points[i].X;
+                }
+                if (points[i].Y < minimumY)
+                {
+                    minimumY = points[i].Y;
+                }
+            }
+            return new Point(minimumX, minimumY);
+        }
+
+        public Point getMaximumPoint()
+        {
+            var maxX = points[0].X;
+            var maxY = points[0].Y;
+            for (var i = 0; i < points.Length; i++)
+            {
+                if (points[i].X > maxX)
+                {
+                    maxX = points[i].X;
+                }
+                if (points[i].Y > maxY)
+                {
+                    maxY = points[i].Y;
+                }
+            }
+            return new Point(maxX, maxY);
+        }
+
         public List<Room> getNeighbors (List<Room> rooms)
         {
 

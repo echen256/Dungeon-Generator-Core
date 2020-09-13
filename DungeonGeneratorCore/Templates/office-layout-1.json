@@ -1,0 +1,70 @@
+{
+    "name" : "office-layout-1",
+    "minimumWidth" : 6,
+    "minimumHeight" : 6,
+    "zones" : [
+        {
+            "width" : "w",
+            "height" : "2",
+            "x" : 0,
+            "y" : 0,
+            "tags" : [
+                "desk", "couch"
+            ],
+            "dirX" : 0,
+            "dirY" : 1,
+            "fillType" : "simple"
+
+        },{
+            "width" : "w",
+            "height" : "2",
+            "x" : 0,
+            "y" : "h-2",
+            "tags" : [
+                "desk", "couch"
+            ],
+            "dirX" : 0,
+            "dirY" : -1,
+            "fillType" : "simple"
+
+        },
+        {
+            "width" : 2,
+            "height" : "h-4",
+            "x" : 0,
+            "y" : 2,
+            "tags" : [
+                "desk", "couch"
+            ],
+            "dirX" : 1,
+            "dirY" : 0,
+            "fillType" : "simple"
+
+        },{
+            "width" : 2,
+            "height" : "h-4",
+            "x" : "w-2",
+            "y" : 2,
+            "tags" : [
+                "desk", "couch"
+            ],
+            "dirX" : -1,
+            "dirY" : 0,
+            "fillType" : "simple"
+
+        },{
+            "width" : "w-6",
+            "height" : "h-6",
+            "x" : 3,
+            "y" : 3,
+            "tags" : [
+                "table" 
+            ],
+            "dirX" : 1,
+            "dirY" : 0,
+            "fillType" : "partition"
+
+        }
+    ]
+
+}

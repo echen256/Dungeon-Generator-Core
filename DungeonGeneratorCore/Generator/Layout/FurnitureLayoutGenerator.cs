@@ -1,13 +1,11 @@
 ﻿using Dungeon_Generator_Core.Generator;
 using System;
 using System.Collections.Generic;
-using System.Text;
+using Dungeon_Generator_Core.TemplateProcessing;
 using Dungeon_Generator_Core.Geometry;
+using Dungeon_Generator_Core.Layout.FillTypes;
 using System.Linq;
-
-using System.Data;
-using System.Diagnostics;
-using NetTopologySuite.Utilities;
+using System.Data; 
 
 namespace Dungeon_Generator_Core.Layout
 {
@@ -16,7 +14,47 @@ namespace Dungeon_Generator_Core.Layout
 	public class FurnitureLayoutGenerator
     {
 		Random random = new Random();
-        public List<IProp> generateRoomLayout (Room room, IPropCollection propCollection, int money)
+
+
+		public List<IProp> generateRoomLayoutBasedOnTemplate (Room room, IPropCollection propCollection, TemplateProcessing.Template template)
+        {
+			List<IProp> props = propCollection.getPropList();
+			List<IProp> placedProps = new List<IProp>();
+			room = new Room(room.getUsableInnerPoints(), room.category);
+
+
+
+
+			template.zones.ForEach((zone) => {
+				var processedZone = new ProcessedZone(room, zone);
+			
+				if (zone.fillType == "simple")
+                {
+					new SimpleFill().execute(processedZone, propCollection, placedProps);
+				} else if (zone.fillType == "partition")
+                {
+					new PartitionFill().execute(processedZone, propCollection, placedProps);
+				}
+				
+				
+			});
+
+
+
+			 
+			return placedProps;
+		}
+		 
+
+
+
+
+
+
+
+
+
+		public List<IProp> generateRoomLayout (Room room, IPropCollection propCollection, int money)
         {
 			List<IProp> props = propCollection.getPropList();
 			List<IProp> placedProps = new List<IProp>();
@@ -157,6 +195,8 @@ namespace Dungeon_Generator_Core.Layout
 		int MaximumClusterCount();
 		int Cost();
 		string Identifier();
+
+		string Color { get; set; }
 		bool WallHugger();
 		int Width();
 		int Height();
@@ -173,11 +213,12 @@ namespace Dungeon_Generator_Core.Layout
 	public class Prop : IProp
     {
 		public int cost;
-		public string color;
+		public string Color { get; set; }
 		public bool wallHugger;
 		public int width;
 		public int height;
 		int maximumClusterCount;
+		string identifier;
 		Point direction;
 		Point position;
 	
@@ -190,7 +231,7 @@ namespace Dungeon_Generator_Core.Layout
 					(int)Math.Round(direction.X * Math.Cos(radian) - direction.Y * Math.Sin(radian)),
 					(int)Math.Round(direction.X * Math.Sin(radian) + direction.Y * Math.Cos(radian))
 				);
-			return new Prop(newSizeX, newSizeY,  Cost(),  Identifier(),  WallHugger(),rotatedDirection, position,maximumClusterCount);
+			return new Prop(newSizeX, newSizeY,  Cost(),  Color,  WallHugger(),rotatedDirection, position,maximumClusterCount, Identifier());
 
 		}
 
@@ -200,7 +241,7 @@ namespace Dungeon_Generator_Core.Layout
         }
 		public string Identifier()
         {
-			return color;
+			return identifier;
         }
 		public bool WallHugger() {
 			return wallHugger;
@@ -225,20 +266,35 @@ namespace Dungeon_Generator_Core.Layout
 
 		public IProp GetPropAtPosition(Point p)
         {
-			return new Prop(width, height, cost, color, wallHugger, direction, p, maximumClusterCount);
+			return new Prop(width, height, cost, Color, wallHugger, direction, p, maximumClusterCount, Identifier());
         }
-		public Prop (int width, int height, int cost,string color, bool wallHugger, Point direction, Point position, int maximumClusterCount)
+		/*public Prop (int width, int height, int cost,string color, bool wallHugger, Point direction, Point position, int maximumClusterCount)
         {
 			this.width = width;
 			this.height = height;
 			this.cost = cost;
-			this.color = color;
+			this.Color = color;
+			this.identifier = color;
 			this.wallHugger = wallHugger;
 			this.direction = direction;
 			this.position = position;
 			this.maximumClusterCount = maximumClusterCount;
-        }
-    }
+        }*/
+
+		public Prop(int width, int height, int cost, string color, bool wallHugger, Point direction, Point position, int maximumClusterCount, string identifier)
+		{
+			this.width = width;
+			this.height = height;
+			this.cost = cost;
+			this.Color = color;
+			this.wallHugger = wallHugger;
+			this.direction = direction;
+			this.identifier = identifier;
+			this.position = position;
+			this.maximumClusterCount = maximumClusterCount;
+
+		}
+	}
 
 	public class PossiblePropPositions
 	{

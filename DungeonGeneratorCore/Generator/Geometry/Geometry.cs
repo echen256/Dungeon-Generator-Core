@@ -322,6 +322,11 @@ namespace Dungeon_Generator_Core.Geometry
                 return false;
             }).ToList();
         }
+
+        public bool Contains (Point p)
+        {
+            return p.X >= minX && p.Y >= minY && p.Y <= maxY && p.X <= maxX;
+        }
         public override int GetHashCode()
         {
             return Width * 10023 + Height * 3423 + min.GetHashCode();

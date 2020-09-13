@@ -15,3 +15,5 @@ E:\Dev\Github\DungeonGeneratorCore\DungeonGeneratorCore\bin\Debug\GeoAPI.Coordin
 E:\Dev\Github\DungeonGeneratorCore\DungeonGeneratorCore\bin\Debug\GeoAPI.CoordinateSystems.xml
 E:\Dev\Github\DungeonGeneratorCore\DungeonGeneratorCore\bin\Debug\NetTopologySuite.CoordinateSystems.xml
 E:\Dev\Github\DungeonGeneratorCore\DungeonGeneratorCore\obj\Debug\DungeonGeneratorCore.csprojAssemblyReference.cache
+E:\Dev\Github\DungeonGeneratorCore\DungeonGeneratorCore\bin\Debug\Newtonsoft.Json.dll
+E:\Dev\Github\DungeonGeneratorCore\DungeonGeneratorCore\bin\Debug\Newtonsoft.Json.xml
