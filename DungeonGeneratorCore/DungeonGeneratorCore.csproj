@@ -75,6 +75,7 @@
     <Compile Include="Generator\Layout\Room.cs" />
     <Compile Include="Generator\Layout\RoomLayoutManager.cs" />
     <Compile Include="Generator\Layout\Settings.cs" />
+    <Compile Include="Generator\Layout\TemplateResults.cs" />
     <Compile Include="Generator\TemplateProcessing\Template.cs" />
     <Compile Include="Generator\TemplateProcessing\TemplateLoader.cs" />
     <Compile Include="Generator\TemplateProcessing\Zone.cs" />
