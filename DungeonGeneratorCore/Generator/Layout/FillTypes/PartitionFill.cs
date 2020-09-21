@@ -18,11 +18,10 @@ namespace Dungeon_Generator_Core.Layout.FillTypes
 		{
 
 			var processedZone = new ProcessedZone(room, zone);
+			var zonePoints = processedZone.getPointsInZone().ToList();
 
 			var validPropCollections = propCollection.getPropList();
 			validPropCollections = validPropCollections.FindAll((prop) => { return processedZone.tags.Contains(prop.Identifier()); });
-			
-			var zonePoints = processedZone.getPointsInZone().ToList();
 
 
 			int cycles = 20;
@@ -46,15 +45,25 @@ namespace Dungeon_Generator_Core.Layout.FillTypes
 					//var selectedPosition = validPropPositions[random.Next(0,  validPropPositions.Count )]; 
 					var selectedPosition = validPropPositions[0];
 					//CenterPropPositions(selectedPosition, processedZone);
+					/*var positions = selectedPosition.possiblePositions;
+					*/
 					var positions = selectedPosition.possiblePositions;
+					var w = selectedPosition.boundingRect.Width;
+					var h = selectedPosition.boundingRect.Height;
+					var x0 = selectedPosition.boundingRect.minX;
+					var y0 = selectedPosition.boundingRect.minY;
+					drawProp(positions[0],new Prop(w,h,1,"green",false, new Point(1,0),new Point(0,0),1,"test"), zonePoints, placedProps);
 					positions.ForEach((point) =>
-					{ 
+					{
 						drawProp(point, selectedPosition.prop, zonePoints, placedProps);
 					});
 
+					processedZone = new ProcessedZone(selectedPosition.remainderRect, room, zone);
+					/*var newPoints = new List<Point>();
 
-					var newPoints = new List<Point>();
-					zonePoints.ForEach((p) => { 
+					zonePoints.ForEach((p) => {
+						var neighbors = Point.getFullNeighbors(p, zonePoints.ToArray());
+						 
 						if (! selectedPosition.boundingRect.Contains(p))
                         {
 							newPoints.Add(p);
@@ -62,9 +71,8 @@ namespace Dungeon_Generator_Core.Layout.FillTypes
 					});
 
 					if (zonePoints.Count == 0) break;
-					processedZone = new ProcessedZone(newPoints,zone );
+					processedZone = new ProcessedZone(newPoints,zone );*/
 
-				
 
 
 				}
@@ -75,10 +83,10 @@ namespace Dungeon_Generator_Core.Layout.FillTypes
 		}
 		public void SampleAllRotations(ProcessedZone processedZone, IProp prop, List<PossiblePropPositionsTemp> validPropPositions, List<Point> zonePoints)
 		{
-			for (var angle = 0; angle < 1; angle += 1)
+			for (var angle = 0; angle < 4; angle += 1)
 			{
 				var radian = Math.PI / 2 * angle;
-				TryPartitionFill(processedZone, prop.GetRotatedProp(0), validPropPositions,   zonePoints);
+				TryPartitionFill(processedZone, prop.GetRotatedProp(radian), validPropPositions,   zonePoints);
 
 			}
 		}
@@ -86,19 +94,23 @@ namespace Dungeon_Generator_Core.Layout.FillTypes
 
 		public void TryPartitionFill(ProcessedZone processedZone, IProp prop, List<PossiblePropPositionsTemp> validPropPositions, List<Point> zonePoints)
 		{
-			var xCount = processedZone.width / prop.Width();
-			var yCount = processedZone.height / prop.Height();
-			Rect boundingRect;
 
+			Rect boundingRect;
+			Rect remainderRect;
 			if (random.NextDouble() < .5)
             {
-				xCount = Math.Min(1, xCount);
-				boundingRect = new Rect(processedZone.x, processedZone.y, prop.Width(), processedZone.height);
+				boundingRect = new Rect(processedZone.x, processedZone.y, Math.Min(processedZone.width, prop.Width() + 1)  , processedZone.height);
+				remainderRect = new Rect(processedZone.x + boundingRect.Width, processedZone.y, processedZone.width - boundingRect.Width, processedZone.height);
             } else
             {
-				yCount = Math.Min(1, yCount);
-				boundingRect = new Rect(processedZone.x, processedZone.y, processedZone.width, prop.Height());
+				boundingRect = new Rect(processedZone.x, processedZone.y,  processedZone.width, Math.Min(processedZone.height,prop.Height() + 1));
+
+				remainderRect = new Rect(processedZone.x , processedZone.y + boundingRect.Height, processedZone.width  , processedZone.height - boundingRect.Height);
 			}
+
+			var xCount = boundingRect.Width / prop.Width();
+			var yCount  =boundingRect.Height / prop.Height();
+			
 
 			var points = new List<Point>();
 
@@ -122,7 +134,7 @@ namespace Dungeon_Generator_Core.Layout.FillTypes
 			if (points.Count > 0)
 			{
 
-				validPropPositions.Add(new PossiblePropPositionsTemp(prop, points, boundingRect));
+				validPropPositions.Add(new PossiblePropPositionsTemp(prop, points, boundingRect,remainderRect));
 			}
 		}
 
@@ -193,14 +205,16 @@ namespace Dungeon_Generator_Core.Layout.FillTypes
 		public class PossiblePropPositionsTemp 
 		{
 			public Rect boundingRect;
+			public Rect remainderRect;
 			public IProp prop;
 			public List<Point> possiblePositions;
 
-			public PossiblePropPositionsTemp(IProp prop, List<Point> positions, Rect boundingRect)
+			public PossiblePropPositionsTemp(IProp prop, List<Point> positions, Rect boundingRect, Rect remainderRect)
 			{
 				this.prop = prop;
 				this.possiblePositions = positions;
 				this.boundingRect = boundingRect;
+				this.remainderRect = remainderRect;
 			}
 
 			public double GetValue(double distributionFactor)
