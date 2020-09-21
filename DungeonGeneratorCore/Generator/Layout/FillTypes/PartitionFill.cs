@@ -14,67 +14,119 @@ namespace Dungeon_Generator_Core.Layout.FillTypes
 	{
 		Random random = new Random();
 
-		public void execute(ProcessedZone processedZone, IPropCollection propCollection, List<IProp> placedProps)
+		public void execute(Room room, Zone zone, IPropCollection propCollection, List<IProp> placedProps)
 		{
+
+			var processedZone = new ProcessedZone(room, zone);
+
 			var validPropCollections = propCollection.getPropList();
 			validPropCollections = validPropCollections.FindAll((prop) => { return processedZone.tags.Contains(prop.Identifier()); });
-			var validPropPositions = new List<PossiblePropPositions>();
+			
 			var zonePoints = processedZone.getPointsInZone().ToList();
 
-			validPropCollections.ForEach((prop) =>
-			{
-				SampleAllRotations(processedZone, prop, validPropPositions);
-			});
 
-			if (validPropPositions.Count > 0)
-			{
-
-				validPropPositions.OrderBy((col) => { return zonePoints.Count - col.prop.Width() * col.prop.Height() * col.possiblePositions.Count(); });
-				var selectedPosition = validPropPositions[0];
-				CenterPropPositions(selectedPosition, processedZone);
-				var positions = selectedPosition.possiblePositions;
-				positions.ForEach((point) =>
+			int cycles = 20;
+			while (zonePoints.Count > 0 && cycles > 0)
+            {
+				var validPropPositions = new List<PossiblePropPositionsTemp>();
+				
+				cycles--;
+				Console.WriteLine(processedZone.boundingRect);
+				validPropCollections.ForEach((prop) =>
 				{
-					drawProp(point, selectedPosition.prop, zonePoints, placedProps);
+					SampleAllRotations(processedZone, prop, validPropPositions, zonePoints);
 				});
+
+				if (validPropPositions.Count > 0)
+				{
+					validPropPositions.OrderBy((col) => { return zonePoints.Count - col.prop.Width() * col.prop.Height() * col.possiblePositions.Count(); });
+					//var selectedPosition = validPropPositions[random.Next(0,  validPropPositions.Count )]; 
+					var selectedPosition = validPropPositions[0];
+					//CenterPropPositions(selectedPosition, processedZone);
+					var positions = selectedPosition.possiblePositions;
+					positions.ForEach((point) =>
+					{ 
+						drawProp(point, selectedPosition.prop, zonePoints, placedProps);
+					});
+
+
+					var newPoints = new List<Point>();
+					zonePoints.ForEach((p) => { 
+						if (! selectedPosition.boundingRect.Contains(p))
+                        {
+							newPoints.Add(p);
+                        }
+					});
+
+					processedZone = new ProcessedZone(newPoints,zone );
+
+				
+
+
+				}
+				
 			}
+
+			
 		}
-		public void SampleAllRotations(ProcessedZone processedZone, IProp prop, List<PossiblePropPositions> validPropPositions)
+		public void SampleAllRotations(ProcessedZone processedZone, IProp prop, List<PossiblePropPositionsTemp> validPropPositions, List<Point> zonePoints)
 		{
-			for (var angle = 0; angle < 4; angle += 1)
+			for (var angle = 0; angle < 1; angle += 1)
 			{
 				var radian = Math.PI / 2 * angle;
-				TryGridFill(processedZone, prop.GetRotatedProp(radian), validPropPositions);
+				TryPartitionFill(processedZone, prop.GetRotatedProp(0), validPropPositions,   zonePoints);
 
 			}
 		}
 
 
-		public void TryGridFill(ProcessedZone processedZone, IProp prop, List<PossiblePropPositions> validPropPositions)
+		public void TryPartitionFill(ProcessedZone processedZone, IProp prop, List<PossiblePropPositionsTemp> validPropPositions, List<Point> zonePoints)
 		{
 			var xCount = processedZone.width / prop.Width();
 			var yCount = processedZone.height / prop.Height();
+			Rect boundingRect;
+
+			if (random.NextDouble() < .5)
+            {
+				xCount = Math.Min(1, xCount);
+				boundingRect = new Rect(processedZone.x, processedZone.y, prop.Width(), processedZone.height);
+            } else
+            {
+				yCount = Math.Min(1, yCount);
+				boundingRect = new Rect(processedZone.x, processedZone.y, processedZone.width, prop.Height());
+			}
 
 			var points = new List<Point>();
+
 			for (var i = 0; i < xCount; i++)
 			{
 				for (var j = 0; j < yCount; j++)
 				{
-					points.Add(new Point(i * prop.Width() + processedZone.boundingRect.minX, j * prop.Height() + processedZone.boundingRect.minY));
+					var p = new Point(i * prop.Width() + processedZone.boundingRect.minX, j * prop.Height() + processedZone.boundingRect.minY);
+					if (zonePoints.Contains(p))
+                    {
+						points.Add(p);
+					} else
+                    {
+						return;
+                    }
+					
 				}
 			}
+
+
 			if (points.Count > 0)
 			{
 
-				validPropPositions.Add(new PossiblePropPositions(prop, points));
+				validPropPositions.Add(new PossiblePropPositionsTemp(prop, points, boundingRect));
 			}
 		}
 
-		public void CenterPropPositions(PossiblePropPositions positions, ProcessedZone processedZone)
+		public void CenterPropPositions(PossiblePropPositionsTemp positions, ProcessedZone processedZone)
 		{
 			var rect = processedZone.boundingRect;
 			var remainderX = rect.Width % positions.prop.Width();
-			var remainderY = rect.Width % positions.prop.Height();
+			var remainderY = rect.Height % positions.prop.Height();
 
 			if (remainderX > 0)
 			{
@@ -118,7 +170,7 @@ namespace Dungeon_Generator_Core.Layout.FillTypes
 
 		public void drawProp(Point point, IProp prop, List<Point> points, List<IProp> placedProps)
 		{
-			var offset = 1;
+			var offset = 0;
 			var width = prop.Width();
 			var height = prop.Height();
 			for (var i = -offset; i < width + offset; i++)
@@ -132,6 +184,25 @@ namespace Dungeon_Generator_Core.Layout.FillTypes
 				}
 			}
 			placedProps.Add(prop.GetPropAtPosition(point));
+		}
+
+		public class PossiblePropPositionsTemp 
+		{
+			public Rect boundingRect;
+			public IProp prop;
+			public List<Point> possiblePositions;
+
+			public PossiblePropPositionsTemp(IProp prop, List<Point> positions, Rect boundingRect)
+			{
+				this.prop = prop;
+				this.possiblePositions = positions;
+				this.boundingRect = boundingRect;
+			}
+
+			public double GetValue(double distributionFactor)
+			{
+				return prop.Cost() * possiblePositions.Count * distributionFactor;
+			}
 		}
 	}
 }

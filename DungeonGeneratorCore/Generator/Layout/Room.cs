@@ -130,12 +130,19 @@ namespace Dungeon_Generator_Core.Generator
 
         public Rect getBoundingRectangle()
         {
-            var minPoint = getMinimumPoint();
-            var maxPoint = getMaximumPoint();
+            var minPoint = Room.getMinimumPoint(points);
+            var maxPoint = Room.getMaximumPoint(points);
             return new Rect(minPoint, maxPoint.X - minPoint.X + 1, maxPoint.Y - minPoint.Y + 1);
         }
 
-        public Point getMinimumPoint()
+        public static Rect GetBoundingRectangle(List<Point> points)
+        { 
+            var minPoint = Room.getMinimumPoint(points.ToArray());
+            var maxPoint = Room.getMaximumPoint(points.ToArray());
+            return new Rect(minPoint, maxPoint.X - minPoint.X + 1, maxPoint.Y - minPoint.Y + 1);
+        }
+
+        public static Point getMinimumPoint(Point[] points)
         {
             var minimumX = points[0].X;
             var minimumY = points[0].Y;
@@ -153,7 +160,7 @@ namespace Dungeon_Generator_Core.Generator
             return new Point(minimumX, minimumY);
         }
 
-        public Point getMaximumPoint()
+        public static Point getMaximumPoint(Point[] points)
         {
             var maxX = points[0].X;
             var maxY = points[0].Y;

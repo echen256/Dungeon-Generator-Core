@@ -14,8 +14,10 @@ namespace Dungeon_Generator_Core.Layout.FillTypes
 	{
 		Random random = new Random();
 
-		public void execute(ProcessedZone processedZone, IPropCollection propCollection, List<IProp> placedProps)
+		public void execute(Room room, Zone zone, IPropCollection propCollection, List<IProp> placedProps)
 		{
+
+			var processedZone = new ProcessedZone(room, zone);
 			var validPropCollections = propCollection.getPropList();
 			validPropCollections = validPropCollections.FindAll((prop) => { return processedZone.tags.Contains(prop.Identifier()); });
 			var validPropPositions = new List<PossiblePropPositions>();

@@ -26,14 +26,13 @@ namespace Dungeon_Generator_Core.Layout
 
 
 			template.zones.ForEach((zone) => {
-				var processedZone = new ProcessedZone(room, zone);
 			
 				if (zone.fillType == "simple")
                 {
-					new SimpleFill().execute(processedZone, propCollection, placedProps);
+					new SimpleFill().execute(room,zone, propCollection, placedProps);
 				} else if (zone.fillType == "partition")
                 {
-					new PartitionFill().execute(processedZone, propCollection, placedProps);
+					new PartitionFill().execute(room,zone, propCollection, placedProps);
 				}
 				
 				
@@ -268,18 +267,7 @@ namespace Dungeon_Generator_Core.Layout
         {
 			return new Prop(width, height, cost, Color, wallHugger, direction, p, maximumClusterCount, Identifier());
         }
-		/*public Prop (int width, int height, int cost,string color, bool wallHugger, Point direction, Point position, int maximumClusterCount)
-        {
-			this.width = width;
-			this.height = height;
-			this.cost = cost;
-			this.Color = color;
-			this.identifier = color;
-			this.wallHugger = wallHugger;
-			this.direction = direction;
-			this.position = position;
-			this.maximumClusterCount = maximumClusterCount;
-        }*/
+ 
 
 		public Prop(int width, int height, int cost, string color, bool wallHugger, Point direction, Point position, int maximumClusterCount, string identifier)
 		{
@@ -313,5 +301,23 @@ namespace Dungeon_Generator_Core.Layout
         }
 		 
 
+	}
+
+	public class PossiblePropPositionsTemp 
+	{
+		public Rect boundingRect;
+		public IProp prop;
+		public List<Point> possiblePositions;
+
+		public PossiblePropPositionsTemp(IProp prop, List<Point> positions)
+		{
+			this.prop = prop;
+			this.possiblePositions = positions;
+		}
+
+		public double GetValue(double distributionFactor)
+		{
+			return prop.Cost() * possiblePositions.Count * distributionFactor;
+		}
 	}
 }

@@ -29,8 +29,7 @@ namespace Dungeon_Generator_Core.TemplateProcessing
         public List<string> tags;
         public int dirX;
         public int dirY;
-        public Rect boundingRect;
-        public Room room;
+        public Rect boundingRect; 
         public string fillType;
         public ProcessedZone(Room room, Zone zone)
         {
@@ -41,20 +40,55 @@ namespace Dungeon_Generator_Core.TemplateProcessing
             y = parseStartingPosition(boundingRect, zone.y,"y");
             tags = new List<string>(zone.tags);
             dirX = zone.dirX;
-            dirY = zone.dirY;
-            this.room = room;
+            dirY = zone.dirY; 
             this.boundingRect = new Rect(x, y, width, height);
+            this.fillType = zone.fillType;
+        }
+
+        public ProcessedZone (List<Point> points,   Zone zone)
+        {
+            var boundingRect = Room.GetBoundingRectangle(points);
+            Console.WriteLine(boundingRect);
+            width = boundingRect.Width ;
+            height = boundingRect.Height  ;
+            x = boundingRect.minX  ;
+            y = boundingRect.minY ;
+            tags = new List<string>(zone.tags);
+            dirX = zone.dirX;
+            dirY = zone.dirY; 
+            this.boundingRect = boundingRect;
+            this.fillType = zone.fillType;
+        }
+
+        public ProcessedZone(Rect rect, Room room, Zone zone)
+        {
+            var boundingRect = rect;
+            Console.WriteLine(boundingRect);
+            width = boundingRect.Width;
+            height = boundingRect.Height;
+            x = boundingRect.minX;
+            y = boundingRect.minY;
+            tags = new List<string>(zone.tags);
+            dirX = zone.dirX;
+            dirY = zone.dirY; 
+            this.boundingRect = boundingRect;
             this.fillType = zone.fillType;
         }
 
         public Point[] getPointsInZone ( )
         {
             var output = new List<Point>();
-            for (var i = 0; i < room.points.Length; i++)
+           /* for (var i = 0; i < room.points.Length; i++)
             {
                 if (boundingRect.Contains(room.points[i]))
                 {
                     output.Add(room.points[i]);
+                }
+            }*/
+           for (var i = 0; i < boundingRect.Width; i++)
+            {
+                for (var j = 0; j < boundingRect.Height; j++){
+                    output.Add(new Point(i + boundingRect.minX, j + boundingRect.minY)); 
                 }
             }
 
