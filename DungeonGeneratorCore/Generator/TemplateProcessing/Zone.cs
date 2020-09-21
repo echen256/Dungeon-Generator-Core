@@ -22,69 +22,72 @@ namespace Dungeon_Generator_Core.TemplateProcessing
 
     public class ProcessedZone
     {
-        public int width;
-        public int height;
-        public int x;
-        public int y;
+        public int Width
+        {
+            get
+            {
+                return boundingRect.Width;
+            }
+        }
+
+     
+        public int Height
+        {
+            get
+            {
+                return boundingRect.Height;
+            }
+        }
+        public int x
+        {
+            get
+            {
+                return boundingRect.minX;
+            }
+        }
+        public int y
+        {
+            get
+            {
+                return boundingRect.minY;
+            }
+        }
+
         public List<string> tags;
         public int dirX;
         public int dirY;
         public Rect boundingRect; 
         public string fillType;
-        public ProcessedZone(Room room, Zone zone)
+        public ProcessedZone(Room room, Zone zone)  
         {
-            var boundingRect = room.getBoundingRectangle();
-            width = parseExpression(boundingRect, zone.width);
-            height = parseExpression(boundingRect, zone.height);
-            x = parseStartingPosition(boundingRect, zone.x,"x");
-            y = parseStartingPosition(boundingRect, zone.y,"y");
+
+            boundingRect = room.getBoundingRectangle();
             tags = new List<string>(zone.tags);
             dirX = zone.dirX;
             dirY = zone.dirY; 
-            this.boundingRect = new Rect(x, y, width, height);
-            this.fillType = zone.fillType;
+            boundingRect = new Rect(parseStartingPosition(boundingRect, zone.x, "x"), parseStartingPosition(boundingRect, zone.y, "y"), parseExpression(boundingRect, zone.width), parseExpression(boundingRect, zone.height));
+            fillType = zone.fillType;
         }
 
-        public ProcessedZone (List<Point> points,   Zone zone)
+        public ProcessedZone (List<Point> points,   Zone zone) : this (Room.GetBoundingRectangle(points), zone)
         {
-            var boundingRect = Room.GetBoundingRectangle(points);
-            Console.WriteLine(boundingRect);
-            width = boundingRect.Width ;
-            height = boundingRect.Height  ;
-            x = boundingRect.minX  ;
-            y = boundingRect.minY ;
+
+        }
+ 
+        public ProcessedZone(Rect rect, Zone zone)
+        {
+            var boundingRect = rect; 
             tags = new List<string>(zone.tags);
             dirX = zone.dirX;
             dirY = zone.dirY; 
             this.boundingRect = boundingRect;
-            this.fillType = zone.fillType;
-        }
-
-        public ProcessedZone(Rect rect, Room room, Zone zone)
-        {
-            var boundingRect = rect;
-            Console.WriteLine(boundingRect);
-            width = boundingRect.Width;
-            height = boundingRect.Height;
-            x = boundingRect.minX;
-            y = boundingRect.minY;
-            tags = new List<string>(zone.tags);
-            dirX = zone.dirX;
-            dirY = zone.dirY; 
-            this.boundingRect = boundingRect;
-            this.fillType = zone.fillType;
+            fillType = zone.fillType;
         }
 
         public Point[] getPointsInZone ( )
         {
             var output = new List<Point>();
-           /* for (var i = 0; i < room.points.Length; i++)
-            {
-                if (boundingRect.Contains(room.points[i]))
-                {
-                    output.Add(room.points[i]);
-                }
-            }*/
+ 
            for (var i = 0; i < boundingRect.Width; i++)
             {
                 for (var j = 0; j < boundingRect.Height; j++){

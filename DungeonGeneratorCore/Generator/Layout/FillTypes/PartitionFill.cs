@@ -45,36 +45,19 @@ namespace Dungeon_Generator_Core.Layout.FillTypes
 					//var selectedPosition = validPropPositions[random.Next(0,  validPropPositions.Count )]; 
 					var selectedPosition = validPropPositions[0];
 					//CenterPropPositions(selectedPosition, processedZone);
-					/*var positions = selectedPosition.possiblePositions;
-					*/
+	
 					var positions = selectedPosition.possiblePositions;
 					var w = selectedPosition.boundingRect.Width;
 					var h = selectedPosition.boundingRect.Height;
 					var x0 = selectedPosition.boundingRect.minX;
 					var y0 = selectedPosition.boundingRect.minY;
-					drawProp(positions[0],new Prop(w,h,1,"green",false, new Point(1,0),new Point(0,0),1,"test"), zonePoints, placedProps);
+
+					//drawProp(positions[0],new Prop(w,h,1,"green",false, new Point(1,0),new Point(0,0),1,"test"), zonePoints, placedProps);
 					positions.ForEach((point) =>
 					{
 						drawProp(point, selectedPosition.prop, zonePoints, placedProps);
 					});
-
-					processedZone = new ProcessedZone(selectedPosition.remainderRect, room, zone);
-					/*var newPoints = new List<Point>();
-
-					zonePoints.ForEach((p) => {
-						var neighbors = Point.getFullNeighbors(p, zonePoints.ToArray());
-						 
-						if (! selectedPosition.boundingRect.Contains(p))
-                        {
-							newPoints.Add(p);
-                        }
-					});
-
-					if (zonePoints.Count == 0) break;
-					processedZone = new ProcessedZone(newPoints,zone );*/
-
-
-
+					processedZone = new ProcessedZone(selectedPosition.remainderRect,   zone);
 				}
 				
 			}
@@ -99,13 +82,13 @@ namespace Dungeon_Generator_Core.Layout.FillTypes
 			Rect remainderRect;
 			if (random.NextDouble() < .5)
             {
-				boundingRect = new Rect(processedZone.x, processedZone.y, Math.Min(processedZone.width, prop.Width() + 1)  , processedZone.height);
-				remainderRect = new Rect(processedZone.x + boundingRect.Width, processedZone.y, processedZone.width - boundingRect.Width, processedZone.height);
+				boundingRect = new Rect(processedZone.x, processedZone.y, Math.Min(processedZone.Width, prop.Width() + 1)  , processedZone.Height);
+				remainderRect = new Rect(processedZone.x + boundingRect.Width, processedZone.y, processedZone.Width - boundingRect.Width, processedZone.Height);
             } else
             {
-				boundingRect = new Rect(processedZone.x, processedZone.y,  processedZone.width, Math.Min(processedZone.height,prop.Height() + 1));
+				boundingRect = new Rect(processedZone.x, processedZone.y,  processedZone.Width, Math.Min(processedZone.Height,prop.Height() + 1));
 
-				remainderRect = new Rect(processedZone.x , processedZone.y + boundingRect.Height, processedZone.width  , processedZone.height - boundingRect.Height);
+				remainderRect = new Rect(processedZone.x , processedZone.y + boundingRect.Height, processedZone.Width  , processedZone.Height - boundingRect.Height);
 			}
 
 			var xCount = boundingRect.Width / prop.Width();

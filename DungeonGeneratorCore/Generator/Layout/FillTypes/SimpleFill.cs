@@ -54,8 +54,8 @@ namespace Dungeon_Generator_Core.Layout.FillTypes
 		
 		public void TryGridFill(ProcessedZone processedZone, IProp prop, List<PossiblePropPositions> validPropPositions)
 		{
-			var xCount = processedZone.width / prop.Width();
-			var yCount = processedZone.height / prop.Height();
+			var xCount = processedZone.Width / prop.Width();
+			var yCount = processedZone.Height / prop.Height();
 
 			var points = new List<Point>();
 			for (var i = 0; i < xCount; i++)
