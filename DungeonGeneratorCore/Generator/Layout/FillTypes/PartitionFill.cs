@@ -32,10 +32,13 @@ namespace Dungeon_Generator_Core.Layout.FillTypes
 				
 				cycles--;
 				Console.WriteLine(processedZone.boundingRect);
-				validPropCollections.ForEach((prop) =>
-				{
-					SampleAllRotations(processedZone, prop, validPropPositions, zonePoints);
-				});
+
+				var prop = validPropCollections[0];
+
+				SampleAllRotations(processedZone, prop, validPropPositions, zonePoints);
+
+				validPropCollections.Add(prop);
+				validPropCollections.RemoveAt(0);
 
 				if (validPropPositions.Count > 0)
 				{
@@ -58,6 +61,7 @@ namespace Dungeon_Generator_Core.Layout.FillTypes
                         }
 					});
 
+					if (zonePoints.Count == 0) break;
 					processedZone = new ProcessedZone(newPoints,zone );
 
 				
