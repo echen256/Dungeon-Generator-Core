@@ -10,7 +10,7 @@ namespace Dungeon_Generator_Core.Layout.FillTypes
 {
 
 	using Point = Dungeon_Generator_Core.Geometry.Point;
-	public class PartitionFill
+	public class DistributedFill
 	{
 		Random random = new Random();
 
@@ -43,18 +43,14 @@ namespace Dungeon_Generator_Core.Layout.FillTypes
 
 				if (validPropPositions.Count > 0)
 				{
-					validPropPositions.OrderBy((col) => { return zonePoints.Count - col.prop.Width() * col.prop.Height() * col.possiblePositions.Count(); });
-					//var selectedPosition = validPropPositions[random.Next(0,  validPropPositions.Count )]; 
-					var selectedPosition = validPropPositions[0];
-					//CenterPropPositions(selectedPosition, processedZone);
+					validPropPositions.OrderBy((col) => { return zonePoints.Count - col.prop.Width() * col.prop.Height() * col.possiblePositions.Count(); });  
+					var selectedPosition = validPropPositions[0]; 
 	
 					var positions = selectedPosition.possiblePositions;
 					var w = selectedPosition.boundingRect.Width;
 					var h = selectedPosition.boundingRect.Height;
 					var x0 = selectedPosition.boundingRect.minX;
-					var y0 = selectedPosition.boundingRect.minY;
-
-					//drawProp(positions[0],new Prop(w,h,1,"green",false, new Point(1,0),new Point(0,0),1,"test"), zonePoints, placedProps);
+					var y0 = selectedPosition.boundingRect.minY; 
 					positions.ForEach((point) =>
 					{
 						drawProp(point, selectedPosition.prop, zonePoints, placedProps);
@@ -72,33 +68,52 @@ namespace Dungeon_Generator_Core.Layout.FillTypes
 		}
 		public void SampleAllRotations(ProcessedZone processedZone, IProp prop, List<PossiblePropPositionsTemplate> validPropPositions, List<Point> zonePoints)
 		{
-			for (var angle = 0; angle < 4; angle += 1)
+			for (var angle = 1; angle < 2; angle += 1)
 			{
 				var radian = Math.PI / 2 * angle;
-				TryPartitionFill(processedZone, prop.GetRotatedProp(radian), validPropPositions,   zonePoints);
-
+				TryDistributedFill(processedZone, prop.GetRotatedProp(radian), validPropPositions,   zonePoints);
 			}
 		}
 
 
-		public void TryPartitionFill(ProcessedZone processedZone, IProp prop, List<PossiblePropPositionsTemplate> validPropPositions, List<Point> zonePoints)
+		public void TryDistributedFill(ProcessedZone processedZone, IProp prop, List<PossiblePropPositionsTemplate> validPropPositions, List<Point> zonePoints)
 		{
 
-			Rect boundingRect;
+			Rect boundingRect = processedZone.boundingRect;
 			Rect remainderRect;
-			if (random.NextDouble() < .5)
-            {
-				boundingRect = new Rect(processedZone.x, processedZone.y, Math.Min(processedZone.Width, prop.Width() + 1)  , processedZone.Height);
-				remainderRect = new Rect(processedZone.x + boundingRect.Width, processedZone.y, processedZone.Width - boundingRect.Width, processedZone.Height);
-            } else
-            {
-				boundingRect = new Rect(processedZone.x, processedZone.y,  processedZone.Width, Math.Min(processedZone.Height,prop.Height() + 1));
-				remainderRect = new Rect(processedZone.x , processedZone.y + boundingRect.Height, processedZone.Width  , processedZone.Height - boundingRect.Height);
-			}
+		
+			if (prop.Width() > processedZone.Width || prop.Height() > processedZone.Height) return;
 
 			var xCount = boundingRect.Width / prop.Width();
 			var yCount = boundingRect.Height / prop.Height();
-			
+
+			Console.WriteLine(boundingRect.Width + " " + prop.Width());
+
+			if (boundingRect.Width > boundingRect.Height)
+            {
+				xCount = Math.Min((boundingRect.Width ) / prop.Width() , random.Next(1,4));
+				yCount = 1;
+				var oldWidth = boundingRect.Width;
+				boundingRect = new Rect(boundingRect.minX, boundingRect.minY, xCount * prop.Width(), boundingRect.Height);
+			 
+				remainderRect = new Rect(boundingRect.min.X + xCount * prop.Width(), boundingRect.min.Y ,  oldWidth - boundingRect.Width, boundingRect.Height );
+
+			}
+			else
+            {
+				yCount = Math.Min((boundingRect.Width ) / prop.Height()  , random.Next(1, 4));
+				xCount = 1;
+				var oldHeight = boundingRect.Height;
+				boundingRect = new Rect(boundingRect.minX, boundingRect.minY, boundingRect.Width, yCount * prop.Height());
+				remainderRect = new Rect(boundingRect.min.X  , boundingRect.min.Y + yCount * prop.Height(), boundingRect.Width  , oldHeight - boundingRect.Height);
+
+			}
+
+
+			Console.WriteLine(boundingRect);
+			Console.WriteLine(remainderRect);
+			Console.WriteLine("********");
+
 
 			var points = new List<Point>();
 

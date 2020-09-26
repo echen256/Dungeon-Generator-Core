@@ -33,7 +33,7 @@ namespace Dungeon_Generator_Core.Layout.FillTypes
 
 				validPropPositions.OrderBy((col) => { return zonePoints.Count - col.prop.Width() * col.prop.Height() * col.possiblePositions.Count(); });
 				var selectedPosition = validPropPositions[0];
-				CenterPropPositions(selectedPosition, processedZone);
+				//CenterPropPositions(selectedPosition, processedZone);
 				var positions = selectedPosition.possiblePositions;
 				positions.ForEach((point) =>
 				{
@@ -46,15 +46,18 @@ namespace Dungeon_Generator_Core.Layout.FillTypes
 			for (var angle = 0; angle < 4; angle += 1)
 			{
 				var radian = Math.PI / 2 * angle;
-				TryGridFill(processedZone, prop.GetRotatedProp(radian), validPropPositions);
+			 
+					TryGridFill(processedZone, prop.GetRotatedProp(radian), validPropPositions );
+				 
+				
 
 			}
 		}
 
 		
-		public void TryGridFill(ProcessedZone processedZone, IProp prop, List<PossiblePropPositions> validPropPositions)
+		public void TryGridFill(ProcessedZone processedZone, IProp prop, List<PossiblePropPositions> validPropPositions )
 		{
-			var xCount = processedZone.Width / prop.Width();
+			var xCount = processedZone.Width / (prop.Width());
 			var yCount = processedZone.Height / prop.Height();
 
 			var points = new List<Point>();
@@ -62,7 +65,13 @@ namespace Dungeon_Generator_Core.Layout.FillTypes
 			{
 				for (var j = 0; j < yCount; j++)
 				{
-					points.Add(new Point(i * prop.Width() + processedZone.boundingRect.minX, j * prop.Height() + processedZone.boundingRect.minY));
+					points.Add(
+						new Point(
+						i * prop.Width() + processedZone.boundingRect.minX  
+						, 
+						j * prop.Height() + processedZone.boundingRect.minY 
+						)
+					);
 				}
 			}
 			if (points.Count > 0)

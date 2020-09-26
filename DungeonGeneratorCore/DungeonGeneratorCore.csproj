@@ -69,6 +69,7 @@
     <Compile Include="Generator\Layout\Distribute.cs" />
     <Compile Include="Generator\Layout\DungeonGeneratorMain.cs" />
     <Compile Include="Generator\Layout\DungeonLayoutGenerator.cs" />
+    <Compile Include="Generator\Layout\FillTypes\DistributedFill.cs" />
     <Compile Include="Generator\Layout\FillTypes\PartitionFill.cs" />
     <Compile Include="Generator\Layout\FillTypes\SimpleFill.cs" />
     <Compile Include="Generator\Layout\FurnitureLayoutGenerator.cs" />

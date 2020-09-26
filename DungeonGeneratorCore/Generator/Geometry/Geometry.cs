@@ -294,6 +294,14 @@ namespace Dungeon_Generator_Core.Geometry
         public int Width { get; set; }
         public int Height { get; set; }
 
+        public int Area
+        {
+            get
+            {
+                return Width * Height;
+            }
+        }
+
         public Point max { get
             {
                 return new Point(min.X + Width - 1, min.Y + Height - 1);

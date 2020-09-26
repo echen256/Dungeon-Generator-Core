@@ -9,11 +9,11 @@
             "x" : 0,
             "y" : 0,
             "tags" : [
-                "desk", "couch", "cabinet", "counter"
+                "desk", "couch"
             ],
             "dirX" : 0,
             "dirY" : 1,
-            "fillType" : "distributed"
+            "fillType" : "simple"
 
         },{
             "width" : "w",
@@ -21,11 +21,11 @@
             "x" : 0,
             "y" : "h-2",
             "tags" : [
-                "desk", "couch", "cabinet", "counter"
+                "desk", "couch"
             ],
             "dirX" : 0,
             "dirY" : -1,
-            "fillType" : "distributed"
+            "fillType" : "simple"
 
         },
         {
@@ -34,11 +34,11 @@
             "x" : 0,
             "y" : 2,
             "tags" : [
-                "desk", "couch", "cabinet", "counter"
+                "desk", "couch"
             ],
             "dirX" : 1,
             "dirY" : 0,
-            "fillType" : "distributed"
+            "fillType" : "simple"
 
         },{
             "width" : 2,
@@ -46,11 +46,11 @@
             "x" : "w-2",
             "y" : 2,
             "tags" : [
-                "desk", "couch", "cabinet", "counter"
+                "desk", "couch"
             ],
             "dirX" : -1,
             "dirY" : 0,
-            "fillType" : "distributed"
+            "fillType" : "simple"
 
         },{
             "width" : "w-6",

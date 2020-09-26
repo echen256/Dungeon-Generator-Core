@@ -33,6 +33,9 @@ namespace Dungeon_Generator_Core.Layout
 				} else if (zone.fillType == "partition")
                 {
 					new PartitionFill().execute(room,zone, propCollection, placedProps);
+				} else if (zone.fillType == "distributed")
+                {
+					new DistributedFill().execute(room, zone, propCollection, placedProps);
 				}
 				
 				
@@ -303,13 +306,13 @@ namespace Dungeon_Generator_Core.Layout
 
 	}
 
-	public class PossiblePropPositionsTemp 
+	public class PossiblePropPositionsTemplate 
 	{
 		public Rect boundingRect;
 		public IProp prop;
 		public List<Point> possiblePositions;
 
-		public PossiblePropPositionsTemp(IProp prop, List<Point> positions)
+		public PossiblePropPositionsTemplate(IProp prop, List<Point> positions)
 		{
 			this.prop = prop;
 			this.possiblePositions = positions;
