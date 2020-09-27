@@ -1,4 +1,4 @@
-﻿using DungeonGeneratorCore.Generator;
+﻿using DungeonGeneratorCore.Generator.Layout;
 using System;
 using System.Collections.Generic;
 using DungeonGeneratorCore.Generator.TemplateProcessing;
@@ -126,9 +126,9 @@ namespace DungeonGeneratorCore.Generator.Layout.FillTypes
 
 						if (checkWallHuggerCondition(p, new Room(processedZone.getPointsInZone().ToList(),""), prop))
                         {
-
-                        }
-						points.Add(p);
+							points.Add(p);
+						}
+						
 					} else
                     {
 						return;

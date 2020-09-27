@@ -74,10 +74,12 @@
     <Compile Include="Generator\Layout\FillTypes\PartitionFill.cs" />
     <Compile Include="Generator\Layout\FillTypes\SimpleFill.cs" />
     <Compile Include="Generator\Layout\FurnitureLayoutGenerator.cs" />
+    <Compile Include="Generator\Layout\PropDataStructures.cs" />
     <Compile Include="Generator\Layout\Room.cs" />
     <Compile Include="Generator\Layout\RoomLayoutManager.cs" />
     <Compile Include="Generator\Layout\Settings.cs" />
     <Compile Include="Generator\Layout\TemplateResults.cs" />
+    <Compile Include="Generator\TemplateProcessing\FillParameters.cs" />
     <Compile Include="Generator\TemplateProcessing\Template.cs" />
     <Compile Include="Generator\TemplateProcessing\TemplateLoader.cs" />
     <Compile Include="Generator\TemplateProcessing\Zone.cs" />

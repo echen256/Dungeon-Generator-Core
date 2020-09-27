@@ -13,7 +13,17 @@
             ],
             "dirX" : 0,
             "dirY" : 1,
-            "fillType" : "distributed"
+            "fillParameters" : {
+                "fillType" :"distributed",
+                "fillDirection" : {
+                    "X" : 1,
+                    "Y" : 1
+                },
+                "fillOffset" : {
+                    "X" : 0,
+                    "Y" : 0
+                }
+            } 
 
         },{
             "width" : "w",
@@ -25,7 +35,17 @@
             ],
             "dirX" : 0,
             "dirY" : -1,
-            "fillType" : "distributed"
+            "fillParameters" : {
+                "fillType" :"distributed",
+                "fillDirection" : {
+                    "X" : 1,
+                    "Y" : 1
+                },
+                "fillOffset" : {
+                    "X" : 0,
+                    "Y" : 0
+                }
+            } 
 
         },
         {
@@ -38,7 +58,17 @@
             ],
             "dirX" : 1,
             "dirY" : 0,
-            "fillType" : "distributed"
+            "fillParameters" : {
+                "fillType" :"distributed",
+                "fillDirection" : {
+                    "X" : 1,
+                    "Y" : 1
+                },
+                "fillOffset" : {
+                    "X" : 0,
+                    "Y" : 0
+                }
+            } 
 
         },{
             "width" : 2,
@@ -50,7 +80,17 @@
             ],
             "dirX" : -1,
             "dirY" : 0,
-            "fillType" : "distributed"
+            "fillParameters" : {
+                "fillType" :"distributed",
+                "fillDirection" : {
+                    "X" : 1,
+                    "Y" : 1
+                },
+                "fillOffset" : {
+                    "X" : 0,
+                    "Y" : 0
+                }
+            } 
 
         },{
             "width" : "w-6",
@@ -62,7 +102,17 @@
             ],
             "dirX" : 1,
             "dirY" : 0,
-            "fillType" : "partition"
+            "fillParameters" : {
+                "fillType" :"partition",
+                "fillDirection" : {
+                    "X" : 1,
+                    "Y" : 1
+                },
+                "fillOffset" : {
+                    "X" : 0,
+                    "Y" : 0
+                }
+            } 
 
         }
     ]

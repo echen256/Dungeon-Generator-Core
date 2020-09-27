@@ -17,7 +17,7 @@ namespace DungeonGeneratorCore.Generator.TemplateProcessing
         public List<string> tags;
         public int dirX;
         public int dirY;
-        public string fillType;
+        public FillParameters fillParameters;
     }
 
     public class ProcessedZone
@@ -56,8 +56,8 @@ namespace DungeonGeneratorCore.Generator.TemplateProcessing
         public List<string> tags;
         public int dirX;
         public int dirY;
-        public Rect boundingRect; 
-        public string fillType;
+        public Rect boundingRect;
+        public FillParameters fillParameters;
         public ProcessedZone(Room room, Zone zone)  
         {
 
@@ -66,7 +66,7 @@ namespace DungeonGeneratorCore.Generator.TemplateProcessing
             dirX = zone.dirX;
             dirY = zone.dirY; 
             boundingRect = new Rect(parseStartingPosition(boundingRect, zone.x, "x"), parseStartingPosition(boundingRect, zone.y, "y"), parseExpression(boundingRect, zone.width), parseExpression(boundingRect, zone.height));
-            fillType = zone.fillType;
+            fillParameters = zone.fillParameters;
         }
 
         public ProcessedZone (List<Point> points,   Zone zone) : this (Room.GetBoundingRectangle(points), zone)
@@ -81,7 +81,7 @@ namespace DungeonGeneratorCore.Generator.TemplateProcessing
             dirX = zone.dirX;
             dirY = zone.dirY; 
             this.boundingRect = boundingRect;
-            fillType = zone.fillType;
+            fillParameters = zone.fillParameters;
         }
 
         public Point[] getPointsInZone ( )
