@@ -1,15 +1,15 @@
-﻿using Dungeon_Generator_Core.Generator;
+﻿using DungeonGeneratorCore.Generator;
 using System;
 using System.Collections.Generic;
-using Dungeon_Generator_Core.TemplateProcessing;
-using Dungeon_Generator_Core.Geometry;
+using DungeonGeneratorCore.Generator.TemplateProcessing;
+using DungeonGeneratorCore.Generator.Geometry;
 using System.Linq;
 using System.Data;
 
-namespace Dungeon_Generator_Core.Layout.FillTypes
+namespace DungeonGeneratorCore.Generator.Layout.FillTypes
 {
 
-	using Point = Dungeon_Generator_Core.Geometry.Point;
+	using Point = DungeonGeneratorCore.Generator.Geometry.Point;
 	public class DistributedFill
 	{
 		Random random = new Random();
@@ -95,7 +95,6 @@ namespace Dungeon_Generator_Core.Layout.FillTypes
 				yCount = 1;
 				var oldWidth = boundingRect.Width;
 				boundingRect = new Rect(boundingRect.minX, boundingRect.minY, xCount * prop.Width(), boundingRect.Height);
-			 
 				remainderRect = new Rect(boundingRect.min.X + xCount * prop.Width(), boundingRect.min.Y ,  oldWidth - boundingRect.Width, boundingRect.Height );
 
 			}
@@ -109,11 +108,11 @@ namespace Dungeon_Generator_Core.Layout.FillTypes
 
 			}
 
+			var minX = processedZone.boundingRect.minX;
+			var minY = processedZone.boundingRect.minY;
 
-			Console.WriteLine(boundingRect);
-			Console.WriteLine(remainderRect);
-			Console.WriteLine("********");
-
+			var dir = new Point(processedZone.dirX, processedZone.dirY);
+			 
 
 			var points = new List<Point>();
 
@@ -124,6 +123,11 @@ namespace Dungeon_Generator_Core.Layout.FillTypes
 					var p = new Point(i * prop.Width() + processedZone.boundingRect.minX, j * prop.Height() + processedZone.boundingRect.minY);
 					if (zonePoints.Contains(p))
                     {
+
+						if (checkWallHuggerCondition(p, new Room(processedZone.getPointsInZone().ToList(),""), prop))
+                        {
+
+                        }
 						points.Add(p);
 					} else
                     {
@@ -138,6 +142,20 @@ namespace Dungeon_Generator_Core.Layout.FillTypes
 			{
 				validPropPositions.Add(new PossiblePropPositionsTemplate(prop, points, boundingRect,remainderRect));
 			}
+		}
+
+		public bool checkWallHuggerCondition(Point point, Room room, IProp prop)
+		{
+			var edgePoints = new List<Point>();
+			for (var i = 0; i < prop.Width(); i++)
+			{
+				for (var j = 0; j < prop.Height(); j++)
+				{
+					edgePoints.Add(new Point(i, j) + point + prop.Direction());
+				}
+			}
+
+			return edgePoints.Intersect(room.edgePoints).Count() > 0;
 		}
 
 		public void CenterPropPositions(PossiblePropPositionsTemplate positions, ProcessedZone processedZone)

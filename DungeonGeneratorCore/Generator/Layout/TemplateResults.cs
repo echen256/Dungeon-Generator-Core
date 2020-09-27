@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Dungeon_Generator_Core.Geometry;
-using Dungeon_Generator_Core.Generator;
+using DungeonGeneratorCore.Generator.Geometry;
+using DungeonGeneratorCore.Generator;
 
-namespace Dungeon_Generator_Core.Layout
+namespace DungeonGeneratorCore.Generator.Layout
 {
 
     public class TemplateResults

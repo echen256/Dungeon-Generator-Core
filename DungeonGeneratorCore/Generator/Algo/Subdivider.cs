@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 
-using Dungeon_Generator_Core.Geometry;
-using Dungeon_Generator_Core.Generator;
+using DungeonGeneratorCore.Generator.Geometry;
+using DungeonGeneratorCore.Generator;
 
-namespace Dungeon_Generator_Core.Generator
+namespace DungeonGeneratorCore.Generator
 {
     public class Subdivider
     {

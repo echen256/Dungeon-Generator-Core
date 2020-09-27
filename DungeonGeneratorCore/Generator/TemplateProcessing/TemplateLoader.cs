@@ -7,15 +7,15 @@ using Newtonsoft.Json;
 using System.IO;
 
 
-namespace Dungeon_Generator_Core.TemplateProcessing
+namespace DungeonGeneratorCore.Generator.TemplateProcessing
 {
     public class TemplateLoader
     {
         public List<Template> execute()
         {
             List<Template> templates = new List<Template>();
-
-            var json = File.ReadAllText(@"E:\Dev\Github\DungeonGeneratorCore\DungeonGeneratorCore\Templates\office-layout-1.json");
+            //var json = File.ReadAllText(@"..\\Templates\\office -layout-1.json");
+            var json = File.ReadAllText(@"./../../../Dungeon-Generator-Core/DungeonGeneratorCore/Templates/office-layout-1.json");
             Template template = JsonConvert.DeserializeObject<Template>(json);
             templates.Add(template);
             Console.WriteLine(template);

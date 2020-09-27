@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Newtonsoft.Json;
 
-namespace Dungeon_Generator_Core.TemplateProcessing
+namespace DungeonGeneratorCore.Generator.TemplateProcessing
 {
     public class Template
     {

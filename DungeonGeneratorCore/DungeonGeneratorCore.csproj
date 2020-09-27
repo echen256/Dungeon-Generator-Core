@@ -64,6 +64,7 @@
     <Compile Include="Generator\Algo\Pathfinder.cs" />
     <Compile Include="Generator\Algo\Prims.cs" />
     <Compile Include="Generator\Algo\Subdivider.cs" />
+    <Compile Include="Generator\Geometry\Rotation.cs" />
     <Compile Include="Generator\Geometry\Geometry.cs" />
     <Compile Include="Generator\Layout\ClusterGenerator.cs" />
     <Compile Include="Generator\Layout\Distribute.cs" />

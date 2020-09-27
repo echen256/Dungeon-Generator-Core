@@ -1,16 +1,16 @@
-﻿using Dungeon_Generator_Core.Generator;
+﻿using DungeonGeneratorCore.Generator;
 using System;
 using System.Collections.Generic;
-using Dungeon_Generator_Core.TemplateProcessing;
-using Dungeon_Generator_Core.Geometry;
-using Dungeon_Generator_Core.Layout.FillTypes;
+using DungeonGeneratorCore.Generator.TemplateProcessing;
+using DungeonGeneratorCore.Generator.Geometry;
+using DungeonGeneratorCore.Generator.Layout.FillTypes;
 using System.Linq;
 using System.Data; 
 
-namespace Dungeon_Generator_Core.Layout
+namespace DungeonGeneratorCore.Generator.Layout
 {
 
-	using Point = Dungeon_Generator_Core.Geometry.Point;
+	using Point = DungeonGeneratorCore.Generator.Geometry.Point;
 	public class FurnitureLayoutGenerator
     {
 		Random random = new Random();

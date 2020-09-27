@@ -1,9 +1,9 @@
 ﻿
 using System;
 using System.Collections.Generic;
-using Dungeon_Generator_Core.Geometry;
+using DungeonGeneratorCore.Generator.Geometry;
 
-namespace Dungeon_Generator_Core.Generator
+namespace DungeonGeneratorCore.Generator
 {
     public class Prims
     {

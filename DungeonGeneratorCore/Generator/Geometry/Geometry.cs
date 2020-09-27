@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq; 
 
-namespace Dungeon_Generator_Core.Geometry
+namespace DungeonGeneratorCore.Generator.Geometry
 {
  
     public static class Directions

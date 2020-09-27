@@ -4,17 +4,17 @@ using System.Linq;
 using NetTopologySuite.Triangulate;
 using NetTopologySuite.CoordinateSystems;
 using GeoAPI.Geometries;
-using Dungeon_Generator_Core.Geometry;
-using Dungeon_Generator_Core.Generator;
+using DungeonGeneratorCore.Generator.Geometry;
+using DungeonGeneratorCore.Generator;
 using NetTopologySuite.Geometries;
 using System.Diagnostics;
 
-namespace Dungeon_Generator_Core.Layout
+namespace DungeonGeneratorCore.Generator.Layout
 {
 
-    using Edge = Dungeon_Generator_Core.Geometry.Edge;
-    using Point = Dungeon_Generator_Core.Geometry.Point;
-    using Rect = Dungeon_Generator_Core.Geometry.Rect;
+    using Edge = DungeonGeneratorCore.Generator.Geometry.Edge;
+    using Point = DungeonGeneratorCore.Generator.Geometry.Point;
+    using Rect = DungeonGeneratorCore.Generator.Geometry.Rect;
     public class DungeonLayout
     {
 

@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic; 
 using System.Linq; 
-using Dungeon_Generator_Core.Geometry;
-using Dungeon_Generator_Core.Layout;
+using DungeonGeneratorCore.Generator.Geometry;
+using DungeonGeneratorCore.Generator.Layout;
 using NetTopologySuite.Algorithm.Distance;
 
-namespace Dungeon_Generator_Core.Generator
+namespace DungeonGeneratorCore.Generator
 {
     public class Room
     {

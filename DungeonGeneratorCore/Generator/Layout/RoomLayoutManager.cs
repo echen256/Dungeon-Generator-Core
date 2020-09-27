@@ -1,12 +1,12 @@
-﻿using Dungeon_Generator_Core.Generator;
+﻿using DungeonGeneratorCore.Generator;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Dungeon_Generator_Core.Geometry;
+using DungeonGeneratorCore.Generator.Geometry;
 using System.Linq;
 using System.Data;
 
-namespace Dungeon_Generator_Core.Layout
+namespace DungeonGeneratorCore.Generator.Layout
 {
     public class RoomLayoutManager
     {

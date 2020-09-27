@@ -4,12 +4,12 @@ using System.Linq;
 using NetTopologySuite.Triangulate;
 using NetTopologySuite.CoordinateSystems;
 using GeoAPI.Geometries;
-using Dungeon_Generator_Core.Geometry;
-using Dungeon_Generator_Core.Generator;
+using DungeonGeneratorCore.Generator.Geometry;
+using DungeonGeneratorCore.Generator;
 using NetTopologySuite.Geometries;
 using System.Diagnostics;
 
-namespace Dungeon_Generator_Core.Layout
+namespace DungeonGeneratorCore.Generator.Layout
 {
     public class Distribute
     {

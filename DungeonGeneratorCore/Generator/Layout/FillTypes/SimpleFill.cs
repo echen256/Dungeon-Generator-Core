@@ -1,15 +1,15 @@
-﻿using Dungeon_Generator_Core.Generator;
+﻿using DungeonGeneratorCore.Generator;
 using System;
 using System.Collections.Generic;
-using Dungeon_Generator_Core.TemplateProcessing;
-using Dungeon_Generator_Core.Geometry;
+using DungeonGeneratorCore.Generator.TemplateProcessing;
+using DungeonGeneratorCore.Generator.Geometry;
 using System.Linq;
 using System.Data;
 
-namespace Dungeon_Generator_Core.Layout.FillTypes
+namespace DungeonGeneratorCore.Generator.Layout.FillTypes
 {
 
-	using Point = Dungeon_Generator_Core.Geometry.Point;
+	using Point = DungeonGeneratorCore.Generator.Geometry.Point;
 	public class SimpleFill
 	{
 		Random random = new Random();
