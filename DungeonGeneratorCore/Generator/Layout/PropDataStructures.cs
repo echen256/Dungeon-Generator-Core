@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Newtonsoft.Json.Converters;
+using Newtonsoft.Json;
 using System.Text;
 using DungeonGeneratorCore.Generator.Geometry;
 
@@ -40,19 +42,15 @@ namespace DungeonGeneratorCore.Generator.Layout
 		Point direction;
 		Point position;
 
+        public override string ToString()
+        {
+            return JsonConvert.SerializeObject(this);
+		}
 
-		public IProp GetRotatedProp(double radian)
+        public IProp GetRotatedProp(double radian)
 		{
-			/*var newSizeX = (int)Math.Abs(Math.Round(Width() * Math.Cos(radian) - Height() * Math.Sin(radian)));
-			var newSizeY = (int)Math.Abs(Math.Round(Width() * Math.Sin(radian) + Height() * Math.Cos(radian)));
-			var rotatedDirection = new Point(
-					(int)Math.Round(direction.X * Math.Cos(radian) - direction.Y * Math.Sin(radian)),
-					(int)Math.Round(direction.X * Math.Sin(radian) + direction.Y * Math.Cos(radian))
-				);
-			return new Prop(newSizeX, newSizeY, Cost(), Color, WallHugger(), rotatedDirection, position, maximumClusterCount, Identifier());
-			*/
-			var newSize = Rotation.GetRotatedPoint(radian, new Point(Width(), Height()));
-			var rotatedDirection = Rotation.GetRotatedPoint(radian, direction);
+			var newSize = Rotation.GetRotatedPointAroundPivot(radian, new Point(Width(), Height()),0,0);
+			var rotatedDirection = Rotation.GetRotatedPointAroundPivot(radian, direction,0,0);
 			return new Prop((int)Math.Abs(newSize.X), (int)Math.Abs(newSize.Y), Cost(), Color, WallHugger(), rotatedDirection, position, maximumClusterCount, Identifier());
 		}
 

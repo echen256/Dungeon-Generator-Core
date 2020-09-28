@@ -5,6 +5,7 @@ using System.Text;
 using DungeonGeneratorCore.Generator.Geometry;
 using DungeonGeneratorCore.Generator.Layout;
 using DungeonGeneratorCore.Generator;
+using org.mariuszgromada.math.mxparser;
 
 namespace DungeonGeneratorCore.Generator.TemplateProcessing
 {
@@ -53,6 +54,8 @@ namespace DungeonGeneratorCore.Generator.TemplateProcessing
             }
         }
 
+
+        public string[] expressions = new string[] { "+", "-", "/", "*" };
         public List<string> tags;
         public int dirX;
         public int dirY;
@@ -111,8 +114,13 @@ namespace DungeonGeneratorCore.Generator.TemplateProcessing
         public int parseExpression (Rect rect,string expression)
         {
             var result = 0;
+            Constant w = new Constant("w", rect.Width);
+            Constant h = new Constant("h", rect.Height);
 
-            if (expression.Equals("w"))
+            Expression e = new Expression(expression, new PrimitiveElement[] { w,h});
+
+            return (int)e.calculate();
+           /* if (expression.Equals("w"))
             {
                 return rect.Width;
             } else if (expression.Equals("h"))
@@ -131,10 +139,24 @@ namespace DungeonGeneratorCore.Generator.TemplateProcessing
                     return rect.Height - int.Parse(values[1]);
                 }
 
-            } else
+            } else if (expression.Contains("/"))
+            {
+                var values = expression.Split('/');
+                if (expression.Contains("w"))
+                {
+                    return rect.Width /int.Parse(values[1]);
+                }
+                else
+                {
+                    return rect.Height / int.Parse(values[1]);
+                }
+            }
+            
+            
+            else
             {
                 return 0;
-            }
+            }*/
  
         }
     }

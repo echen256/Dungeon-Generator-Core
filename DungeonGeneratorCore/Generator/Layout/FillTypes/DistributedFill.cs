@@ -5,40 +5,56 @@ using DungeonGeneratorCore.Generator.TemplateProcessing;
 using DungeonGeneratorCore.Generator.Geometry;
 using System.Linq;
 using System.Data;
+using System.Runtime.InteropServices;
 
 namespace DungeonGeneratorCore.Generator.Layout.FillTypes
 {
 
 	using Point = DungeonGeneratorCore.Generator.Geometry.Point;
+
+
 	public class DistributedFill
 	{
 		Random random = new Random();
-
+		public int minimumCount = 1;
+		public int maximumCount = 5;
+		public int maximumWidth = 10;
 		public void execute(Room room, Zone zone, IPropCollection propCollection, List<IProp> placedProps)
 		{
 
 			var processedZone = new ProcessedZone(room, zone);
 			var zonePoints = processedZone.getPointsInZone().ToList();
 
-			var validPropCollections = propCollection.getPropList();
-			validPropCollections = validPropCollections.FindAll((prop) => { return processedZone.tags.Contains(prop.Identifier()); });
+			var validPropList = propCollection.getPropList();
+			validPropList = validPropList.FindAll((prop) => { return processedZone.tags.Contains(prop.Identifier()); });
 
-			int cycles = 20;
+			var validPropListMemory = new List<IProp>();
+			int cycles = 40;
 			 
 			while (cycles > 0)
             {
 
 				cycles--;
-				Console.WriteLine(processedZone.boundingRect.Area);
 				if (processedZone.boundingRect.Area <= 0)
 				{
 					break;
 				}
 
 				var validPropPositions = new List<PossiblePropPositionsTemplate>();
-				var prop = validPropCollections[0];
-				validPropCollections.Add(prop);
-				validPropCollections.RemoveAt(0);
+
+				if (validPropList.Count == 0)
+                {
+					
+					validPropList = new List<IProp>(validPropListMemory);
+					validPropList = validPropList.OrderByDescending((item) => { return random.NextDouble(); } ).ToList(); ;
+                }
+				var selectedIndex = random.Next(0, validPropList.Count);
+				var prop = validPropList[selectedIndex];
+				validPropList.RemoveAt(selectedIndex);
+
+
+				validPropListMemory.Add(prop);
+				
 				SampleAllRotations(processedZone, prop, validPropPositions, zonePoints);
 
 				if (validPropPositions.Count > 0)
@@ -68,11 +84,12 @@ namespace DungeonGeneratorCore.Generator.Layout.FillTypes
 		}
 		public void SampleAllRotations(ProcessedZone processedZone, IProp prop, List<PossiblePropPositionsTemplate> validPropPositions, List<Point> zonePoints)
 		{
-			for (var angle = 1; angle < 2; angle += 1)
+			for (var angle = 0; angle < 4; angle += 1)
 			{
 				var radian = Math.PI / 2 * angle;
-				TryDistributedFill(processedZone, prop.GetRotatedProp(radian), validPropPositions,   zonePoints);
-			}
+				var rotatedProp = prop.GetRotatedProp(radian); 
+				TryDistributedFill(processedZone, rotatedProp, validPropPositions,   zonePoints);
+			} 
 		}
 
 
@@ -81,38 +98,44 @@ namespace DungeonGeneratorCore.Generator.Layout.FillTypes
 
 			Rect boundingRect = processedZone.boundingRect;
 			Rect remainderRect;
-		
+
 			if (prop.Width() > processedZone.Width || prop.Height() > processedZone.Height) return;
 
-			var xCount = boundingRect.Width / prop.Width();
-			var yCount = boundingRect.Height / prop.Height();
-
-			Console.WriteLine(boundingRect.Width + " " + prop.Width());
+			int xCount ;
+			int yCount ;
 
 			if (boundingRect.Width > boundingRect.Height)
-            {
-				xCount = Math.Min((boundingRect.Width ) / prop.Width() , random.Next(1,4));
+			{
+				xCount = Math.Min((boundingRect.Width) / prop.Width(), random.Next(minimumCount, maximumCount));
 				yCount = 1;
+
+				if (xCount * prop.Width() > maximumWidth)
+				{
+					xCount = maximumWidth / prop.Width();
+				}
 				var oldWidth = boundingRect.Width;
 				boundingRect = new Rect(boundingRect.minX, boundingRect.minY, xCount * prop.Width(), boundingRect.Height);
-				remainderRect = new Rect(boundingRect.min.X + xCount * prop.Width(), boundingRect.min.Y ,  oldWidth - boundingRect.Width, boundingRect.Height );
-
+				remainderRect = new Rect(boundingRect.min.X + xCount * prop.Width(), boundingRect.min.Y, oldWidth - boundingRect.Width, boundingRect.Height);
 			}
 			else
-            {
-				yCount = Math.Min((boundingRect.Width ) / prop.Height()  , random.Next(1, 4));
+			{
+				yCount = Math.Min((boundingRect.Height) / prop.Height(), random.Next(minimumCount, maximumCount));
+				if (yCount * prop.Height() > maximumWidth)
+                {
+					yCount = maximumWidth / prop.Height();
+                }
 				xCount = 1;
 				var oldHeight = boundingRect.Height;
 				boundingRect = new Rect(boundingRect.minX, boundingRect.minY, boundingRect.Width, yCount * prop.Height());
-				remainderRect = new Rect(boundingRect.min.X  , boundingRect.min.Y + yCount * prop.Height(), boundingRect.Width  , oldHeight - boundingRect.Height);
+				remainderRect = new Rect(boundingRect.min.X, boundingRect.min.Y + yCount * prop.Height(), boundingRect.Width, oldHeight - boundingRect.Height);
 
 			}
 
 			var minX = processedZone.boundingRect.minX;
 			var minY = processedZone.boundingRect.minY;
-
-			var dir = new Point(processedZone.dirX, processedZone.dirY);
-			 
+			var min = new Point(minX, minY);
+			var dir = new Point(1, 1);
+ 
 
 			var points = new List<Point>();
 
@@ -120,15 +143,10 @@ namespace DungeonGeneratorCore.Generator.Layout.FillTypes
 			{
 				for (var j = 0; j < yCount; j++)
 				{
-					var p = new Point(i * prop.Width() + processedZone.boundingRect.minX, j * prop.Height() + processedZone.boundingRect.minY);
-					if (zonePoints.Contains(p))
+					var p = new Point(dir.X * i * prop.Width(), dir.Y * j * prop.Height()) + min; 
+					if (zonePoints.Contains(p) && checkWallHuggerCondition(p,processedZone,prop))
                     {
-
-						if (checkWallHuggerCondition(p, new Room(processedZone.getPointsInZone().ToList(),""), prop))
-                        {
-							points.Add(p);
-						}
-						
+						points.Add(p);		
 					} else
                     {
 						return;
@@ -137,6 +155,18 @@ namespace DungeonGeneratorCore.Generator.Layout.FillTypes
 				}
 			}
 
+			if (processedZone.fillParameters.floatType == "right" || processedZone.fillParameters.floatType == "top")
+			{
+				var center = boundingRect.max - boundingRect.min;
+				var centerX = center.X / 2.0 + boundingRect.min.X;
+				var centerY = center.Y / 2.0 + boundingRect.min.Y;
+				for (var q = 0; q < points.Count; q++)
+                {
+					points[q] = Rotation.GetRotatedPointAroundPivot(Math.PI,points[q], centerX,centerY);
+					points[q].X -= (prop.Width() - 1);
+					points[q].Y -= (prop.Height() - 1);
+                }
+			}
 
 			if (points.Count > 0)
 			{
@@ -144,18 +174,10 @@ namespace DungeonGeneratorCore.Generator.Layout.FillTypes
 			}
 		}
 
-		public bool checkWallHuggerCondition(Point point, Room room, IProp prop)
+		public bool checkWallHuggerCondition(Point point, ProcessedZone zone, IProp prop)
+		
 		{
-			var edgePoints = new List<Point>();
-			for (var i = 0; i < prop.Width(); i++)
-			{
-				for (var j = 0; j < prop.Height(); j++)
-				{
-					edgePoints.Add(new Point(i, j) + point + prop.Direction());
-				}
-			}
-
-			return edgePoints.Intersect(room.edgePoints).Count() > 0;
+			return new Point(zone.dirX, zone.dirY).Equals(prop.Direction());
 		}
 
 		public void CenterPropPositions(PossiblePropPositionsTemplate positions, ProcessedZone processedZone)

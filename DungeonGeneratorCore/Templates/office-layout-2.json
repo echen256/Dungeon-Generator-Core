@@ -1,0 +1,80 @@
+{
+    "name" : "office-layout-1",
+    "minimumWidth" : 10,
+    "minimumHeight" : 10,
+    "zones" : [
+        {
+            "width" : "w/3",
+            "height" : "h",
+            "x" : 0,
+            "y" : 0,
+            "tags" : [
+                "desk" 
+            ],
+            "dirX" : 1,
+            "dirY" : 0,
+            "fillParameters" : {
+                "fillType" :"distributed",
+                "fillDirection" : {
+                    "X" : 1,
+                    "Y" : 1
+                },
+                "fillOffset" : {
+                    "X" : 0,
+                    "Y" : 0
+                },
+                "floatType" : "left"
+            } 
+
+        },
+        {
+            "width" : "w/3 - 2",
+            "height" : "h-4",
+            "x" : "w/3 + 1" ,
+            "y" : 4,
+            "tags" : [
+                "table, couch" 
+            ],
+            "dirX" : 1,
+            "dirY" : 0,
+            "fillParameters" : {
+                "fillType" :"distributed",
+                "fillDirection" : {
+                    "X" : 1,
+                    "Y" : 1
+                },
+                "fillOffset" : {
+                    "X" : 0,
+                    "Y" : 0
+                },
+                "floatType" : "bottom"
+            } 
+
+        },
+        {
+            "width" : "w/3",
+            "height" : "h",
+            "x" : "2 * w / 3",
+            "y" : 0,
+            "tags" : [
+                "desk" 
+            ],
+            "dirX" : 1,
+            "dirY" : 0,
+            "fillParameters" : {
+                "fillType" :"distributed",
+                "fillDirection" : {
+                    "X" : 1,
+                    "Y" : 1
+                },
+                "fillOffset" : {
+                    "X" : 0,
+                    "Y" : 0
+                },
+                "floatType" : "right"
+            } 
+
+        }
+    ]
+
+}

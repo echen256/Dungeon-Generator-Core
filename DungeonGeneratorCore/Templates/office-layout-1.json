@@ -22,7 +22,8 @@
                 "fillOffset" : {
                     "X" : 0,
                     "Y" : 0
-                }
+                },
+                "floatType" : "bottom"
             } 
 
         },{
@@ -44,7 +45,8 @@
                 "fillOffset" : {
                     "X" : 0,
                     "Y" : 0
-                }
+                },
+                "floatType" : "top"
             } 
 
         },
@@ -67,7 +69,8 @@
                 "fillOffset" : {
                     "X" : 0,
                     "Y" : 0
-                }
+                },
+                "floatType" : "left"
             } 
 
         },{
@@ -89,7 +92,9 @@
                 "fillOffset" : {
                     "X" : 0,
                     "Y" : 0
-                }
+                },
+                "floatType": "right"
+            
             } 
 
         },{
@@ -111,7 +116,8 @@
                 "fillOffset" : {
                     "X" : 0,
                     "Y" : 0
-                }
+                },
+                "floatType" : "bottom"
             } 
 
         }

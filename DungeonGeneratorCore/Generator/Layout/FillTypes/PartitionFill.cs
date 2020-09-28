@@ -25,11 +25,11 @@ namespace DungeonGeneratorCore.Generator.Layout.FillTypes
 
 			int cycles = 20;
 			 
-			while (cycles > 0)
+			while (cycles > 0 && validPropCollections.Count > 0)
             {
 
 				cycles--;
-				Console.WriteLine(processedZone.boundingRect.Area);
+				Console.WriteLine(validPropCollections.Count);
 				if (processedZone.boundingRect.Area <= 0)
 				{
 					break;
