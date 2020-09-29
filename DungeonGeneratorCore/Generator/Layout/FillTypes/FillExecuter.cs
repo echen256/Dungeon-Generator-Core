@@ -27,14 +27,22 @@ namespace DungeonGeneratorCore.Generator.Layout.FillTypes
 			var zonePoints = processedZone.getPointsInZone().ToList();
 			var validPropList = propCollection.getPropList().FindAll((prop) => { return processedZone.tags.Contains(prop.Identifier()); });
 			
-			while (cycles > 0 && validPropList.Count > 0)
+			if (validPropList.Count == 0)
+            {
+				return;
+            }
+			while (cycles > 0)
 			{
+				
+
 				cycles--;
+				
 				if (processedZone.boundingRect.Area <= 0)
 				{
 					break;
 				}
 
+			
 				var validPropPositions = new List<PossiblePropPositionsTemplate>();
 
 				var prop = chooseNextProp(validPropList, validPropListMemory);
@@ -43,10 +51,11 @@ namespace DungeonGeneratorCore.Generator.Layout.FillTypes
 				 
 				if (validPropPositions.Count > 0)
 				{
-					var selectedPropPositions = fillType.ChooseSolution(validPropPositions);
-					fillType.DrawProps(selectedPropPositions, processedZone, placedProps);
+					var selectedPropPositions = fillType.ChooseSolution(validPropPositions, processedZone);
+					fillType.DrawProps(selectedPropPositions, placedProps, out processedZone, zone);
 				}
 
+				Console.WriteLine(cycles + ", " + validPropList.Count + ", " + processedZone.boundingRect.Area);
 			}
 
 

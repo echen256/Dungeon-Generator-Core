@@ -6,6 +6,8 @@ using Newtonsoft.Json;
 
 namespace DungeonGeneratorCore.Generator.TemplateProcessing
 {
+
+    [Serializable]
     public class Template
     {
         public string name;

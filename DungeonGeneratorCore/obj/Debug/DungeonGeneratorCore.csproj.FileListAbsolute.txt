@@ -37,3 +37,5 @@ C:\Users\erict\Documents\Dev\Dungeon-Generator-Core\DungeonGeneratorCore\obj\Deb
 C:\Users\erict\Documents\Dev\Dungeon-Generator-Core\DungeonGeneratorCore\obj\Debug\DungeonGeneratorCore.dll
 C:\Users\erict\Documents\Dev\Dungeon-Generator-Core\DungeonGeneratorCore\obj\Debug\DungeonGeneratorCore.pdb
 C:\Users\erict\Documents\Dev\Dungeon-Generator-Core\DungeonGeneratorCore\bin\Debug\MathParser.org-mXparser.dll
+C:\Users\erict\Documents\Dev\Dungeon-Generator-Core\DungeonGeneratorCore\bin\Debug\MathNet.Numerics.dll
+C:\Users\erict\Documents\Dev\Dungeon-Generator-Core\DungeonGeneratorCore\bin\Debug\MathNet.Numerics.xml

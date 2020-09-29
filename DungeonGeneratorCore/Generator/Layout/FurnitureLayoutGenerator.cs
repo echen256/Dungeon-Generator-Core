@@ -29,13 +29,14 @@ namespace DungeonGeneratorCore.Generator.Layout
 			
 				if (zone.fillParameters.fillType == "simple")
                 {
-					new SimpleFill().execute(room,zone, propCollection, placedProps);
+					new FillExecuter().execute(room, zone, propCollection, placedProps, new SimpleFill());
 				} else if (zone.fillParameters.fillType == "partition")
                 {
-					new PartitionFill().execute(room,zone, propCollection, placedProps);
+					new FillExecuter().execute(room, zone, propCollection, placedProps, new PartitionFill());
 				} else if (zone.fillParameters.fillType == "distributed")
                 {
-					new DistributedFill().execute(room, zone, propCollection, placedProps);
+					new FillExecuter().execute(room, zone, propCollection, placedProps, new DistributedFill());
+				 
 				}
 				
 				

@@ -13,76 +13,26 @@ namespace DungeonGeneratorCore.Generator.Layout.FillTypes
 	using Point = DungeonGeneratorCore.Generator.Geometry.Point;
 
 
-	public class DistributedFill
+	public class DistributedFill : IFill
 	{
 		Random random = new Random();
 		public int minimumCount = 1;
 		public int maximumCount = 5;
 		public int maximumWidth = 10;
-		public void execute(Room room, Zone zone, IPropCollection propCollection, List<IProp> placedProps)
-		{
-
-			var processedZone = new ProcessedZone(room, zone);
-			var zonePoints = processedZone.getPointsInZone().ToList();
-
-			var validPropList = propCollection.getPropList();
-			validPropList = validPropList.FindAll((prop) => { return processedZone.tags.Contains(prop.Identifier()); });
-
-			var validPropListMemory = new List<IProp>();
-			int cycles = 40;
-			 
-			while (cycles > 0)
-            {
-
-				cycles--;
-				if (processedZone.boundingRect.Area <= 0)
-				{
-					break;
-				}
-
-				var validPropPositions = new List<PossiblePropPositionsTemplate>();
-
-				if (validPropList.Count == 0)
-                {
-					
-					validPropList = new List<IProp>(validPropListMemory);
-					validPropList = validPropList.OrderByDescending((item) => { return random.NextDouble(); } ).ToList(); ;
-                }
-				var selectedIndex = random.Next(0, validPropList.Count);
-				var prop = validPropList[selectedIndex];
-				validPropList.RemoveAt(selectedIndex);
-
-
-				validPropListMemory.Add(prop);
-				
-				SampleAllRotations(processedZone, prop, validPropPositions, zonePoints);
-
-				if (validPropPositions.Count > 0)
-				{
-					validPropPositions.OrderBy((col) => { return zonePoints.Count - col.prop.Width() * col.prop.Height() * col.possiblePositions.Count(); });  
-					var selectedPosition = validPropPositions[0]; 
-	
-					var positions = selectedPosition.possiblePositions;
-					var w = selectedPosition.boundingRect.Width;
-					var h = selectedPosition.boundingRect.Height;
-					var x0 = selectedPosition.boundingRect.minX;
-					var y0 = selectedPosition.boundingRect.minY; 
-					positions.ForEach((point) =>
-					{
-						drawProp(point, selectedPosition.prop, zonePoints, placedProps);
-					
-					});
-
-					processedZone = new ProcessedZone(selectedPosition.remainderRect,   zone);
-
-					
-				}
-				
-			}
-
-			
+		 
+		public void DrawProps(PossiblePropPositionsTemplate selectedPropPositions,  List<IProp> placedProps, out ProcessedZone processedZone,  Zone zone)
+        {
+			CommonFillMethods.DrawProps(selectedPropPositions, placedProps, out processedZone, zone);
 		}
-		public void SampleAllRotations(ProcessedZone processedZone, IProp prop, List<PossiblePropPositionsTemplate> validPropPositions, List<Point> zonePoints)
+
+		public PossiblePropPositionsTemplate ChooseSolution(List<PossiblePropPositionsTemplate> validPropPositions, ProcessedZone zone)
+        {
+			
+			validPropPositions.OrderBy((col) => { return zone.boundingRect.Area - col.prop.Width() * col.prop.Height() * col.possiblePositions.Count(); });
+			return validPropPositions[0];
+		}
+
+		public void TryFill(ProcessedZone processedZone, IProp prop, List<PossiblePropPositionsTemplate> validPropPositions, List<Point> zonePoints)
 		{
 			for (var angle = 0; angle < 4; angle += 1)
 			{
@@ -91,7 +41,6 @@ namespace DungeonGeneratorCore.Generator.Layout.FillTypes
 				TryDistributedFill(processedZone, rotatedProp, validPropPositions,   zonePoints);
 			} 
 		}
-
 
 		public void TryDistributedFill(ProcessedZone processedZone, IProp prop, List<PossiblePropPositionsTemplate> validPropPositions, List<Point> zonePoints)
 		{
@@ -104,7 +53,7 @@ namespace DungeonGeneratorCore.Generator.Layout.FillTypes
 			int xCount ;
 			int yCount ;
 
-			if (boundingRect.Width > boundingRect.Height)
+			if (processedZone.fillParameters.fillDirection.X != 0)
 			{
 				xCount = Math.Min((boundingRect.Width) / prop.Width(), random.Next(minimumCount, maximumCount));
 				yCount = 1;
@@ -144,7 +93,7 @@ namespace DungeonGeneratorCore.Generator.Layout.FillTypes
 				for (var j = 0; j < yCount; j++)
 				{
 					var p = new Point(dir.X * i * prop.Width(), dir.Y * j * prop.Height()) + min; 
-					if (zonePoints.Contains(p) && checkWallHuggerCondition(p,processedZone,prop))
+					if (zonePoints.Contains(p) && propIsAligned(processedZone,prop))
                     {
 						points.Add(p);		
 					} else
@@ -174,95 +123,12 @@ namespace DungeonGeneratorCore.Generator.Layout.FillTypes
 			}
 		}
 
-		public bool checkWallHuggerCondition(Point point, ProcessedZone zone, IProp prop)
+		public bool propIsAligned( ProcessedZone zone, IProp prop)
 		
 		{
 			return new Point(zone.dirX, zone.dirY).Equals(prop.Direction());
 		}
-
-		public void CenterPropPositions(PossiblePropPositionsTemplate positions, ProcessedZone processedZone)
-		{
-			var rect = processedZone.boundingRect;
-			var remainderX = rect.Width % positions.prop.Width();
-			var remainderY = rect.Height % positions.prop.Height();
-
-			if (remainderX > 0)
-			{
-				if (remainderX % 2 == 1)
-				{
-					var midPoint = positions.possiblePositions.Count / 2;
-					for (var i = midPoint; i < positions.possiblePositions.Count; i++)
-					{
-						positions.possiblePositions[i].X += remainderX;
-					}
-				}
-				else
-				{
-					for (var i = 0; i < positions.possiblePositions.Count; i++)
-					{
-						positions.possiblePositions[i].X += remainderX / 2;
-					}
-				}
-			}
-
-			if (remainderY > 0)
-			{
-				if (remainderY % 2 == 1)
-				{
-					var midPoint = positions.possiblePositions.Count / 2;
-					for (var i = midPoint; i < positions.possiblePositions.Count; i++)
-					{
-						positions.possiblePositions[i].Y += remainderY;
-					}
-				}
-				else
-				{
-					for (var i = 0; i < positions.possiblePositions.Count; i++)
-					{
-						positions.possiblePositions[i].Y += remainderY / 2;
-					}
-				}
-			}
-
-		}
-
-		public void drawProp(Point point, IProp prop, List<Point> points, List<IProp> placedProps)
-		{
  
-			var width = prop.Width();
-			var height = prop.Height();
-			for (var i = 0; i < width ; i++)
-			{
-				for (var j = 0; j < height ; j++)
-				{
-					var p2 = new Point(point.X + i, point.Y + j);
-
-					points.Remove(p2);
-
-				}
-			}
-			placedProps.Add(prop.GetPropAtPosition(point));
-		}
-
-		public class PossiblePropPositionsTemplate 
-		{
-			public Rect boundingRect;
-			public Rect remainderRect;
-			public IProp prop;
-			public List<Point> possiblePositions;
-
-			public PossiblePropPositionsTemplate(IProp prop, List<Point> positions, Rect boundingRect, Rect remainderRect)
-			{
-				this.prop = prop;
-				this.possiblePositions = positions;
-				this.boundingRect = boundingRect;
-				this.remainderRect = remainderRect;
-			}
-
-			public double GetValue(double distributionFactor)
-			{
-				return prop.Cost() * possiblePositions.Count * distributionFactor;
-			}
-		}
+		
 	}
 }

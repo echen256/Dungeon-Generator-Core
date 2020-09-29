@@ -17,7 +17,7 @@
                 "fillType" :"distributed",
                 "fillDirection" : {
                     "X" : 1,
-                    "Y" : 1
+                    "Y" : 0
                 },
                 "fillOffset" : {
                     "X" : 0,
@@ -40,7 +40,7 @@
                 "fillType" :"distributed",
                 "fillDirection" : {
                     "X" : 1,
-                    "Y" : 1
+                    "Y" : 0
                 },
                 "fillOffset" : {
                     "X" : 0,
@@ -63,7 +63,7 @@
             "fillParameters" : {
                 "fillType" :"distributed",
                 "fillDirection" : {
-                    "X" : 1,
+                    "X" : 0,
                     "Y" : 1
                 },
                 "fillOffset" : {
@@ -86,7 +86,7 @@
             "fillParameters" : {
                 "fillType" :"distributed",
                 "fillDirection" : {
-                    "X" : 1,
+                    "X" : 0,
                     "Y" : 1
                 },
                 "fillOffset" : {

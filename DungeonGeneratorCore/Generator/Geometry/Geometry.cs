@@ -20,6 +20,11 @@ namespace DungeonGeneratorCore.Generator.Geometry
             this.Y = y;
         }
 
+        public double Magnitude()
+        {
+            return Math.Sqrt((X * X) + (Y * Y));
+        }
+
         public override string ToString()
         {
             return "(" + X + ',' + Y + ')';
@@ -77,6 +82,7 @@ namespace DungeonGeneratorCore.Generator.Geometry
             return results;
         }
 
+       
         public static List<Point> getFullNeighbors(Point p, Point[] points)
         {
             var results = new List<Point>();

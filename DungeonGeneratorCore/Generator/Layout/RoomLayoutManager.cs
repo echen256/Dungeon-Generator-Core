@@ -131,9 +131,7 @@ namespace DungeonGeneratorCore.Generator.Layout
 			{
                 var r = eligibleRooms.Last();
                 eligibleRooms.RemoveAt(eligibleRooms.Count - 1);
- 
-                    var area = 1000;
-                    Room selectedRoom = null;
+   
                     var neighbors = r.getNeighbors(rooms).Where(validNeighbor).ToList();
                     if (neighbors.Count > 0)
                     {

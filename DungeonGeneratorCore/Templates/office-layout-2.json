@@ -9,19 +9,19 @@
             "x" : 0,
             "y" : 0,
             "tags" : [
-                "desk" 
+                "desk"  
             ],
             "dirX" : 1,
             "dirY" : 0,
             "fillParameters" : {
-                "fillType" :"distributed",
+                "fillType" :"simple",
                 "fillDirection" : {
-                    "X" : 1,
+                    "X" : 0,
                     "Y" : 1
                 },
                 "fillOffset" : {
                     "X" : 0,
-                    "Y" : 0
+                    "Y" : 1
                 },
                 "floatType" : "left"
             } 
@@ -33,12 +33,12 @@
             "x" : "w/3 + 1" ,
             "y" : 4,
             "tags" : [
-                "table, couch" 
+                "table", "couch" 
             ],
             "dirX" : 1,
             "dirY" : 0,
             "fillParameters" : {
-                "fillType" :"distributed",
+                "fillType" :"partition",
                 "fillDirection" : {
                     "X" : 1,
                     "Y" : 1
@@ -62,14 +62,14 @@
             "dirX" : 1,
             "dirY" : 0,
             "fillParameters" : {
-                "fillType" :"distributed",
+                "fillType" :"simple",
                 "fillDirection" : {
-                    "X" : 1,
+                    "X" : 0,
                     "Y" : 1
                 },
                 "fillOffset" : {
                     "X" : 0,
-                    "Y" : 0
+                    "Y" : 1
                 },
                 "floatType" : "right"
             } 

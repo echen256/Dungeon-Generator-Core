@@ -12,10 +12,10 @@ namespace DungeonGeneratorCore.Generator.Layout.FillTypes
     {
         void TryFill(ProcessedZone processedZone, IProp prop, List<PossiblePropPositionsTemplate> validPropPositions, List<Point> zonePoints);
 
-        void DrawProps(PossiblePropPositionsTemplate selectedPropPositions, ProcessedZone processedZone, List<IProp> placedProps);
+        void DrawProps(PossiblePropPositionsTemplate selectedPropPositions, List<IProp> placedProps, out ProcessedZone processedZone, Zone zone);
 
 
-        PossiblePropPositionsTemplate ChooseSolution(List<PossiblePropPositionsTemplate> validPropPositions);
+        PossiblePropPositionsTemplate ChooseSolution(List<PossiblePropPositionsTemplate> validPropPositions, ProcessedZone processedZone);
 
     }
 }

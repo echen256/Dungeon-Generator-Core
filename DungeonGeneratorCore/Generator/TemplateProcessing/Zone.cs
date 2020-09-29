@@ -9,6 +9,7 @@ using org.mariuszgromada.math.mxparser;
 
 namespace DungeonGeneratorCore.Generator.TemplateProcessing
 {
+    [Serializable]
     public class Zone
     {
         public string width;
@@ -112,51 +113,14 @@ namespace DungeonGeneratorCore.Generator.TemplateProcessing
             }
         }
         public int parseExpression (Rect rect,string expression)
-        {
-            var result = 0;
+        { 
             Constant w = new Constant("w", rect.Width);
             Constant h = new Constant("h", rect.Height);
 
             Expression e = new Expression(expression, new PrimitiveElement[] { w,h});
 
-            return (int)e.calculate();
-           /* if (expression.Equals("w"))
-            {
-                return rect.Width;
-            } else if (expression.Equals("h"))
-            {
-                return rect.Height;
-            } else if (int.TryParse(expression, out result))
-            {
-                return result;
-            } else if (expression.Contains("-")) {
-                var values = expression.Split('-');
-                if (expression.Contains("w"))
-                {
-                    return rect.Width - int.Parse(values[1]);
-                } else
-                {
-                    return rect.Height - int.Parse(values[1]);
-                }
-
-            } else if (expression.Contains("/"))
-            {
-                var values = expression.Split('/');
-                if (expression.Contains("w"))
-                {
-                    return rect.Width /int.Parse(values[1]);
-                }
-                else
-                {
-                    return rect.Height / int.Parse(values[1]);
-                }
-            }
-            
-            
-            else
-            {
-                return 0;
-            }*/
+            return (int)Math.Round(e.calculate());
+         
  
         }
     }
