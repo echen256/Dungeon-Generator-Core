@@ -22,9 +22,7 @@ namespace DungeonGeneratorCore.Generator.Layout
 			List<IProp> placedProps = new List<IProp>();
 			room = new Room(room.getUsableInnerPoints(), room.category);
 
-
-
-
+			 
 			template.zones.ForEach((zone) => {
 			
 				if (zone.fillParameters.fillType == "simple")

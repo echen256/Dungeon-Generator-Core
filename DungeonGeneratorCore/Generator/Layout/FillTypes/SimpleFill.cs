@@ -44,9 +44,15 @@ namespace DungeonGeneratorCore.Generator.Layout.FillTypes
 			var offsetY = processedZone.fillParameters.fillOffset.Y;
 			var xCount = processedZone.Width / (prop.Width() + offsetX);
 			var yCount = processedZone.Height / (prop.Height() + offsetY);
-
-
- 
+			var min = processedZone.boundingRect.min;
+			if (processedZone.fillParameters.floatType == "right")
+			{
+				min.X += processedZone.Width % (xCount * prop.Width());
+			}
+			else if (processedZone.fillParameters.floatType == "top")
+			{
+				min.Y += processedZone.Height % (yCount * prop.Height());
+			}
 
 			var points = new List<Point>();
 			for (var i = 0; i < xCount; i++)
@@ -55,13 +61,15 @@ namespace DungeonGeneratorCore.Generator.Layout.FillTypes
 				{
 					points.Add(
 						new Point(
-						i *( prop.Width() + offsetX) + processedZone.boundingRect.minX   
+						i *( prop.Width() + offsetX) + min.X  
 						, 
-						j *( prop.Height() + offsetY) + processedZone.boundingRect.minY 
+						j *( prop.Height() + offsetY) + min.Y
 						)
 					);
 				}
 			}
+
+			 
 			if (points.Count > 0)
 			{
 

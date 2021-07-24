@@ -1,0 +1,131 @@
+{
+    "name": "office-props-1",
+    "tags": [
+        "back"
+    ],
+    "categories": [
+        "office"
+    ],
+    "weight" : 1,
+    "props": [
+        {
+            "width": 3,
+            "height": 2,
+            "cost": 12,
+            "Color": "green",
+            "wallHugger": "true",
+            "direction": {
+                "x": 0,
+                "y": -1
+            },
+            "position": {
+                "x": 0,
+                "y": 0
+            },
+            "maximumClusterCount": 5,
+            "identifier": "desk"
+        },
+        {
+            "width": 3,
+            "height": 1,
+            "cost": 12,
+            "Color": "gold",
+            "wallHugger": "true",
+            "direction": {
+                "x": 0,
+                "y": -1
+            },
+            "position": {
+                "x": 0,
+                "y": 0
+            },
+            "maximumClusterCount": 5,
+            "identifier": "counter"
+        },
+        {
+            "width": 1,
+            "height": 1,
+            "cost": 12,
+            "Color": "orange",
+            "wallHugger": "true",
+            "direction": {
+                "x": 0,
+                "y": -1
+            },
+            "position": {
+                "x": 0,
+                "y": 0
+            },
+            "maximumClusterCount": 5,
+            "identifier": "cabinet"
+        },
+        {
+            "width": 1,
+            "height": 1,
+            "cost": 12,
+            "Color": "blue",
+            "wallHugger": "true",
+            "direction": {
+                "x": 0,
+                "y": -1
+            },
+            "position": {
+                "x": 0,
+                "y": 0
+            },
+            "maximumClusterCount": 5,
+            "identifier": "cabinet"
+        },
+        {
+            "width": 1,
+            "height": 1,
+            "cost": 12,
+            "Color": "black",
+            "wallHugger": "true",
+            "direction": {
+                "x": 0,
+                "y": -1
+            },
+            "position": {
+                "x": 0,
+                "y": 0
+            },
+            "maximumClusterCount": 5,
+            "identifier": "counter"
+        },
+        {
+            "width": 2,
+            "height": 3,
+            "cost": 12,
+            "Color": "yellow",
+            "wallHugger": "false",
+            "direction": {
+                "x": 0,
+                "y": 1
+            },
+            "position": {
+                "x": 0,
+                "y": 0
+            },
+            "maximumClusterCount": 1,
+            "identifier": "table"
+        },
+        {
+            "width": 3,
+            "height": 5,
+            "cost": 12,
+            "Color": "red",
+            "wallHugger": "false",
+            "direction": {
+                "x": 0,
+                "y": -1
+            },
+            "position": {
+                "x": 0,
+                "y": 0
+            },
+            "maximumClusterCount": 1,
+            "identifier": "table"
+        } 
+    ]
+}

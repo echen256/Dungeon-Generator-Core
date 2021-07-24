@@ -11,6 +11,9 @@ namespace DungeonGeneratorCore.Generator.Layout
 
         List<IProp> getPropList();
 
+        string[] tags { get; set; }
+        string name { get; set; }
+
     }
 
     public interface ICollectionPalette

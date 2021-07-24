@@ -20,11 +20,11 @@ namespace DungeonGeneratorCore.Generator.Layout.FillTypes
 			});
 			processedZone = new ProcessedZone(selectedPropPositions.remainderRect, zone);
 		}
-		public static void CenterPropPositions(PossiblePropPositions positions, ProcessedZone processedZone)
+		public static void CenterPropPositions(PossiblePropPositionsTemplate positions, ProcessedZone processedZone)
 		{
 			var rect = processedZone.boundingRect;
 			var remainderX = rect.Width % positions.prop.Width();
-			var remainderY = rect.Width % positions.prop.Height();
+			var remainderY = 0;// rect.Height % positions.prop.Height();
 
 			if (remainderX > 0)
 			{
@@ -36,13 +36,13 @@ namespace DungeonGeneratorCore.Generator.Layout.FillTypes
 						positions.possiblePositions[i].X += remainderX;
 					}
 				}
-				else
+				/*else
 				{
 					for (var i = 0; i < positions.possiblePositions.Count; i++)
 					{
 						positions.possiblePositions[i].X += remainderX / 2;
 					}
-				}
+				}*/
 			}
 
 			if (remainderY > 0)
@@ -55,13 +55,13 @@ namespace DungeonGeneratorCore.Generator.Layout.FillTypes
 						positions.possiblePositions[i].Y += remainderY;
 					}
 				}
-				else
+				/*else
 				{
 					for (var i = 0; i < positions.possiblePositions.Count; i++)
 					{
 						positions.possiblePositions[i].Y += remainderY / 2;
 					}
-				}
+				}*/
 			}
 
 		}

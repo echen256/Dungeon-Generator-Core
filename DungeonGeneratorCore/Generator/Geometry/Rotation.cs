@@ -20,19 +20,14 @@ namespace DungeonGeneratorCore.Generator.Geometry
 			var l0 = lineVector;
 			var values = new double[] {
 				l0.X *l0.X - l0.Y * l0.Y, 2 * l0.X * l0.Y, 2 * l0.X * l0.Y,  l0.Y *l0.Y - l0.X * l0.X
-			};
-			Console.WriteLine(JsonConvert.SerializeObject(values));
-			Matrix<double> flipMatrix = Matrix<double>.Build.Dense(2, 2,values);
-			Console.WriteLine(flipMatrix);
-			flipMatrix.Multiply(1 / (l * l));
-			Console.WriteLine(flipMatrix);
+			}; 
+			Matrix<double> flipMatrix = Matrix<double>.Build.Dense(2, 2,values); 
+			flipMatrix.Multiply(1 / (l * l)); 
 			Matrix<double> pointMatrix = Matrix<double>.Build.Dense(2, 1, new double[] { p.X, p.Y });
 		
 			var result = flipMatrix.Multiply(pointMatrix);
 			var point = new Point((int)result[0, 0], (int)result[1, 0]) + lineOrigin;
-			
-			Console.WriteLine(point);
-		 
+			 
 
 			return point;
         }

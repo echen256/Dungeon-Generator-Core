@@ -1,0 +1,29 @@
+{
+    "name": "grocery-store-props-1",
+    "tags": [
+        "checkout"
+    ],
+    "categories": [
+        "office"
+    ],
+    "weight" : 1, 
+    "props": [
+        {
+            "width": 2,
+            "height": 3,
+            "cost": 12,
+            "Color": "blue",
+            "wallHugger": "true",
+            "direction": {
+                "x": 0,
+                "y": -1
+            },
+            "position": {
+                "x": 0,
+                "y": 0
+            },
+            "maximumClusterCount": 1,
+            "identifier": "checkout"
+        }
+    ]
+}

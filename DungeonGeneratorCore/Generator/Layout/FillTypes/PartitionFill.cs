@@ -40,16 +40,32 @@ namespace DungeonGeneratorCore.Generator.Layout.FillTypes
 			Rect remainderRect;
 			if (boundingRect.Width > boundingRect.Height)
             {
-				boundingRect = new Rect(processedZone.x, processedZone.y, Math.Min(processedZone.Width, prop.Width() + 1)  , processedZone.Height);
-				remainderRect = new Rect(processedZone.x + boundingRect.Width, processedZone.y, processedZone.Width - boundingRect.Width, processedZone.Height);
+				boundingRect = new Rect(processedZone.x, processedZone.y, Math.Min(processedZone.Width, prop.Width()  )  , processedZone.Height);
+				remainderRect = new Rect(processedZone.x + boundingRect.Width + 1, processedZone.y, processedZone.Width - boundingRect.Width - 1, processedZone.Height);
             } else
             {
-				boundingRect = new Rect(processedZone.x, processedZone.y,  processedZone.Width, Math.Min(processedZone.Height,prop.Height() + 1));
-				remainderRect = new Rect(processedZone.x , processedZone.y + boundingRect.Height, processedZone.Width  , processedZone.Height - boundingRect.Height);
+				boundingRect = new Rect(processedZone.x, processedZone.y,  processedZone.Width, Math.Min(processedZone.Height,prop.Height()  ));
+				remainderRect = new Rect(processedZone.x , processedZone.y + boundingRect.Height + 1, processedZone.Width  , processedZone.Height - boundingRect.Height - 1);
 			}
 
 			var xCount = boundingRect.Width / prop.Width();
 			var yCount = boundingRect.Height / prop.Height();
+
+			var xRemainder = boundingRect.Width % prop.Width();
+			var yRemainder = boundingRect.Height % prop.Height();
+
+			var min = processedZone.boundingRect.min;
+
+		/*	if (xRemainder /2 > 1)
+            {
+				min.X += xRemainder / 2;
+			}
+			if (yRemainder / 2 > 1)
+            {
+				min.Y += yRemainder / 2;
+			}*/
+			
+			
 			
 
 			var points = new List<Point>();
@@ -58,7 +74,7 @@ namespace DungeonGeneratorCore.Generator.Layout.FillTypes
 			{
 				for (var j = 0; j < yCount; j++)
 				{
-					var p = new Point(i * prop.Width() + processedZone.boundingRect.minX, j * prop.Height() + processedZone.boundingRect.minY);
+					var p = new Point(i * prop.Width()  , j * prop.Height()  ) + min;
 					if (zonePoints.Contains(p))
                     {
 						points.Add(p);

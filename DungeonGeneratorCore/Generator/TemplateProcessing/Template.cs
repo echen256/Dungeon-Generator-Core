@@ -14,6 +14,7 @@ namespace DungeonGeneratorCore.Generator.TemplateProcessing
         public int miniumumWidth;
         public int minimumHeight;
         public List<Zone> zones;
+        public string[] tags;
 
         public override string ToString()
         {

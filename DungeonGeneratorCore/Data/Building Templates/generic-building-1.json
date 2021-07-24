@@ -1,0 +1,55 @@
+{
+    "name": "generic-building-1",
+    "minimumWidth": 12,
+    "minimumHeight": 12,
+    "averageRoomWidth" : 6,
+    "averageRoomHeight" : 6,
+    "zones": [
+        {
+            "width": "w",
+            "height": "h/3",
+            "x": 0,
+            "y": 0,
+            "tags": [
+                "checkout"
+            ],
+            "dirX": 0,
+            "dirY": 1,
+            "fillParameters": {
+                "fillType": "distributed",
+                "fillDirection": {
+                    "X": 1,
+                    "Y": 0
+                },
+                "fillOffset": {
+                    "X": 0,
+                    "Y": 0
+                },
+                "floatType": "bottom"
+            }
+        },
+        {
+            "width": "w",
+            "height": "2*h/3",
+            "x": 0,
+            "y": "h/3",
+            "tags": [
+                "back"
+            ],
+            "dirX": 0,
+            "dirY": 1,
+            "fillParameters": {
+                "fillType": "distributed",
+                "fillDirection": {
+                    "X": 1,
+                    "Y": 0
+                },
+                "fillOffset": {
+                    "X": 0,
+                    "Y": 0
+                },
+                "floatType": "top"
+            }
+        }
+    ]
+}

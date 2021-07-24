@@ -72,6 +72,8 @@
     <Compile Include="Generator\Algo\Pathfinder.cs" />
     <Compile Include="Generator\Algo\Prims.cs" />
     <Compile Include="Generator\Algo\Subdivider.cs" />
+    <Compile Include="Generator\BuildingDesigner\Building.cs" />
+    <Compile Include="Generator\BuildingDesigner\BuildingTemplateParser.cs" />
     <Compile Include="Generator\Geometry\Rotation.cs" />
     <Compile Include="Generator\Geometry\Geometry.cs" />
     <Compile Include="Generator\Layout\ClusterGenerator.cs" />
@@ -86,7 +88,9 @@
     <Compile Include="Generator\Layout\FillTypes\PossiblePropPositionsTemplate.cs" />
     <Compile Include="Generator\Layout\FillTypes\SimpleFill.cs" />
     <Compile Include="Generator\Layout\FurnitureLayoutGenerator.cs" />
+    <Compile Include="Generator\Layout\PropCollections.cs" />
     <Compile Include="Generator\Layout\PropDataStructures.cs" />
+    <Compile Include="Generator\Layout\PropJSONLoader.cs" />
     <Compile Include="Generator\Layout\Room.cs" />
     <Compile Include="Generator\Layout\RoomLayoutManager.cs" />
     <Compile Include="Generator\Layout\Settings.cs" />
@@ -100,9 +104,6 @@
   <ItemGroup>
     <Compile Include="Generator\TemplateProcessing\DynamicSizeProperty.cs" />
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Generator\Layout\PropCollections.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
