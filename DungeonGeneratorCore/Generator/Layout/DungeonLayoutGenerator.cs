@@ -67,7 +67,7 @@ namespace Dungeon_Generator_Core.Layout
             return formattedRects;
         }
 
-        void processSingleRect(List<Rect> rects, Rect r, int adjustedWidth, int adjustedHeight)
+        public void processSingleRect(List<Rect> rects, Rect r, int adjustedWidth, int adjustedHeight)
         {
      
             for (var j = 0; j < rects.Count; j++)

@@ -324,7 +324,7 @@ namespace Dungeon_Generator_Core.Geometry
         }
         public override int GetHashCode()
         {
-            return Width * 10023 + Height * 3423 + min.GetHashCode();
+            return Width * 10023 + Height * 3423 + min.X * 323 + min.Y * 366732;
         }
 
         public override bool Equals(object obj)
@@ -335,7 +335,7 @@ namespace Dungeon_Generator_Core.Geometry
         }
         public bool Equals(Rect other)
         {
-            return other.min == this.min && other.Width == this.Width && other.Height == this.Height;
+            return other.GetHashCode() == GetHashCode();
         }
 
         public override string ToString()
